@@ -9,15 +9,8 @@
 import UIKit
 import MSBPlayer
 
-//#define NETAVURL @"http://39.107.116.40/res/tpl/default/file/guoke.mp4"
-//#define NETAVURL @"http://playback.bsy.live.kkgoo.cn/live/347339769685475644.m3u8"
-//#define NETAVURL @"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
-
-//private let video = "http://39.107.116.40/res/tpl/default/file/guoke.mp4"
-
 private let video = "http://s2.meixiu.mobi/courseware/test/texiao/ES2U102KABWL/errors/2.mp4"
 
-//let video = "http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
 
 
 
@@ -65,21 +58,6 @@ class ViewController: UIViewController {
         
 //        player?.seek(toTime: 0)
 //        player?.play()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-//        player?.seek(toTime: 0)
-//        playVideo()
-//        print(subView, subView.layer)
-//        subView.transform = CGAffineTransform(scaleX: 35, y: 35)
-//        subView.center = CGPoint(x: subView.frame.size.width * 0.5, y: subView.frame.size.height * 0.5)
-//        subView.frame = CGRect(x: 0, y: 0, width: 700, height: 700)
-//        print(subView, subView.layer)
-
-//        for sub in subView.subviews {
-//            print(sub, sub.layer.frame, sub.layer.bounds)
-//        }
     }
     
 }
