@@ -64,7 +64,7 @@ class ViewController: UIViewController {
 
 private extension ViewController {
     func playVideo() {
-        let path = Bundle.main.path(forResource: "output", ofType: "mp4")
+        let path = Bundle.main.path(forResource: "1", ofType: "mp4")
         
         let url = URL(fileURLWithPath: path!)
 //        let url = URL(string: "https://xiaoxiong-private.oss-cn-hangzhou.aliyuncs.com/courseware/test/temp/675ee040ba8111eaa93d315dba0324be.mp4")
@@ -73,7 +73,7 @@ private extension ViewController {
         
 //        player = MSBAIApplePlayer(url: url)
 //        player = MSBAIPlayer(url: url)
-        player = MSBAIPlayer(url: url, apple: false)
+        player = MSBAIPlayer(url: url, apple: true)
         player?.videoGravity = .resizeAspect
         player?.attach(to: view)
         
