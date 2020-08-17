@@ -15,6 +15,16 @@
  //yanzhen 2020-07-30 MSB 加载，手动播放
  */
 
+/**
+1. 需要直接播放
+2. seek接口只有一个参数
+3. 去掉手势
+4. 新播放状态
+5. MSBStreamPlayer不能使用CGAffineTransform
+*/
+
+
+
 @interface MSBAIPlayer ()
 @property (nonatomic, strong) id<MSBAIPlayerProtocol> player;
 @end
@@ -125,6 +135,14 @@
 
 - (void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
     return _player.playbackTime;
+}
+
+- (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
+    _player.audioDataBlock = audioDataBlock;
+}
+
+- (void (^)(int, int, void *, int))audioDataBlock {
+    return _player.audioDataBlock;
 }
 
 #pragma mark - func

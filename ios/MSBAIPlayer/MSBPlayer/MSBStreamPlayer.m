@@ -8,6 +8,7 @@
 
 #import "MSBStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
+#import "MSBIJKAVManager.h"
 
 @interface MSBStreamPlayer ()
 @property (nonatomic, assign) IJKMPMoviePlaybackState ijkStatus;
@@ -29,6 +30,7 @@
 @synthesize playerStatus = _playerStatus;
 @synthesize playbackStatus = _playbackStatus;
 @synthesize playbackTimeInterval = _playbackTimeInterval;
+@synthesize audioDataBlock = _audioDataBlock;
 
 + (instancetype)playerWithURL:(NSURL *)URL {
     return [[MSBStreamPlayer alloc] initWithURL:URL];
@@ -52,6 +54,13 @@
         _player.shouldAutoplay = NO;
         [self addObserver];
         [_player prepareToPlay];
+        __weak MSBStreamPlayer *weakSelf = self;
+        MSBIJKAVManager.manager.audioDataBlock = ^(int sampleRate, int channels, void *data, int size) {
+            __strong MSBStreamPlayer *strongSelf = weakSelf;
+            if (strongSelf.audioDataBlock) {
+                strongSelf.audioDataBlock(sampleRate, channels, data, size);
+            }
+        };
     }
     return self;
 }
@@ -225,6 +234,14 @@
 
 - (void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
     return _playbackTime;
+}
+
+- (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
+    _audioDataBlock = audioDataBlock;
+}
+
+- (void (^)(int, int, void *, int))audioDataBlock {
+    return _audioDataBlock;
 }
 
 #pragma mark - funcs

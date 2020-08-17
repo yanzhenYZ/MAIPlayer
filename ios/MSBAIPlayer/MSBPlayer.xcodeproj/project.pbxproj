@@ -193,6 +193,8 @@
 		9B44CB8724A9F2B0009F48DB /* MSBAIPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CB8524A9F2B0009F48DB /* MSBAIPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9B44CB8824A9F2B0009F48DB /* MSBAIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CB8624A9F2B0009F48DB /* MSBAIPlayer.m */; };
 		9B44CB8B24A9F907009F48DB /* MSBAIEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CB8924A9F907009F48DB /* MSBAIEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9B47B78E24EA2B56000D7B53 /* MSBIJKAVManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78C24EA2B56000D7B53 /* MSBIJKAVManager.h */; };
+		9B47B78F24EA2B56000D7B53 /* MSBIJKAVManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9B47B78D24EA2B56000D7B53 /* MSBIJKAVManager.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -383,6 +385,8 @@
 		9B44CB8524A9F2B0009F48DB /* MSBAIPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBAIPlayer.h; sourceTree = "<group>"; };
 		9B44CB8624A9F2B0009F48DB /* MSBAIPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBAIPlayer.m; sourceTree = "<group>"; };
 		9B44CB8924A9F907009F48DB /* MSBAIEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBAIEnum.h; sourceTree = "<group>"; };
+		9B47B78C24EA2B56000D7B53 /* MSBIJKAVManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBIJKAVManager.h; sourceTree = "<group>"; };
+		9B47B78D24EA2B56000D7B53 /* MSBIJKAVManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MSBIJKAVManager.mm; sourceTree = "<group>"; };
 		E654EA8A1B6B27E600B0F2D0 /* MSBPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MSBPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E825CB8C1FDB65AC00D6ABF1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -763,6 +767,8 @@
 			children = (
 				E825CB8C1FDB65AC00D6ABF1 /* Info.plist */,
 				48CF6EC7249F141200FC4374 /* MSBAIPlayerProtocol.h */,
+				9B47B78C24EA2B56000D7B53 /* MSBIJKAVManager.h */,
+				9B47B78D24EA2B56000D7B53 /* MSBIJKAVManager.mm */,
 				48CF6EC3249E3DC400FC4374 /* MSBStreamPlayer.h */,
 				48CF6EC4249E3DC400FC4374 /* MSBStreamPlayer.m */,
 				48CF6E83249DC03700FC4374 /* MSBAIApplePlayer.h */,
@@ -839,6 +845,7 @@
 				48BD5D4B246A991F00AA73C0 /* IJKVideoToolBox.h in Headers */,
 				48BD5E35246A9DC600AA73C0 /* IJKSDLAudioKit.h in Headers */,
 				48BD5E38246A9DC600AA73C0 /* ijksdl_thread_ios.h in Headers */,
+				9B47B78E24EA2B56000D7B53 /* MSBIJKAVManager.h in Headers */,
 				48BD5D4A246A991F00AA73C0 /* ffpipeline_ios.h in Headers */,
 				48BD5C96246A953200AA73C0 /* IJKAVMoviePlayerController.h in Headers */,
 				48BD5CDD246A97F200AA73C0 /* ff_ffpipeline.h in Headers */,
@@ -1036,6 +1043,7 @@
 				48BD5DBF246A997F00AA73C0 /* ijksdl_thread.c in Sources */,
 				48BD5CE2246A97F200AA73C0 /* ff_cmdutils.c in Sources */,
 				48BD5C7F246A94C000AA73C0 /* IJKMediaModule.m in Sources */,
+				9B47B78F24EA2B56000D7B53 /* MSBIJKAVManager.mm in Sources */,
 				48BD5DE3246A998000AA73C0 /* ijksdl_stdinc.c in Sources */,
 				48BD5D23246A985400AA73C0 /* ijkstl.cpp in Sources */,
 				48BD5D1F246A985400AA73C0 /* ijklivehook.c in Sources */,

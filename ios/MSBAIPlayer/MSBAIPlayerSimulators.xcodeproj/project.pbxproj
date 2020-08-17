@@ -31,6 +31,8 @@
 		9B47B78924E7E471000D7B53 /* MSBAIApplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */; };
 		9B47B78A24E7E471000D7B53 /* MSBStreamPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */; };
 		9B47B78B24E7E471000D7B53 /* MSBPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78424E7E471000D7B53 /* MSBPlayer.h */; };
+		9B47B79224EA2BCC000D7B53 /* MSBIJKAVManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9B47B79024EA2BCC000D7B53 /* MSBIJKAVManager.mm */; };
+		9B47B79324EA2BCC000D7B53 /* MSBIJKAVManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B79124EA2BCC000D7B53 /* MSBIJKAVManager.h */; };
 		9BDDC18924A1A0640068247B /* MSBStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDDC18724A1A0640068247B /* MSBStreamPlayer.m */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +63,8 @@
 		9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBAIApplePlayer.m; path = MSBPlayer/MSBAIApplePlayer.m; sourceTree = SOURCE_ROOT; };
 		9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBStreamPlayer.h; path = MSBPlayer/MSBStreamPlayer.h; sourceTree = SOURCE_ROOT; };
 		9B47B78424E7E471000D7B53 /* MSBPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBPlayer.h; path = MSBPlayer/MSBPlayer.h; sourceTree = SOURCE_ROOT; };
+		9B47B79024EA2BCC000D7B53 /* MSBIJKAVManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MSBIJKAVManager.mm; path = MSBPlayer/MSBIJKAVManager.mm; sourceTree = SOURCE_ROOT; };
+		9B47B79124EA2BCC000D7B53 /* MSBIJKAVManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBIJKAVManager.h; path = MSBPlayer/MSBIJKAVManager.h; sourceTree = SOURCE_ROOT; };
 		9BDDC18724A1A0640068247B /* MSBStreamPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBStreamPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +104,8 @@
 				9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */,
 				9B47B77E24E7E470000D7B53 /* MSBAIEnum.h */,
 				9B47B78124E7E470000D7B53 /* MSBAIPlayerProtocol.h */,
+				9B47B79124EA2BCC000D7B53 /* MSBIJKAVManager.h */,
+				9B47B79024EA2BCC000D7B53 /* MSBIJKAVManager.mm */,
 				9B47B78024E7E470000D7B53 /* MSBAIPlayer.h */,
 				9B44CB9124AA101E009F48DB /* MSBAIPlayer.m */,
 				9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */,
@@ -148,6 +154,7 @@
 				9B44CBAC24AAE68C009F48DB /* IJKNotificationManager.h in Headers */,
 				9B44CBB624AAEC3B009F48DB /* IJKMediaPlayback.h in Headers */,
 				9B44CBA024AAE5D6009F48DB /* IJKAudioKit.h in Headers */,
+				9B47B79324EA2BCC000D7B53 /* MSBIJKAVManager.h in Headers */,
 				9B44CBA524AAE647009F48DB /* IJKMediaUtils.h in Headers */,
 				9B44CBAD24AAE68C009F48DB /* IJKMediaModule.h in Headers */,
 				9B47B78A24E7E471000D7B53 /* MSBStreamPlayer.h in Headers */,
@@ -224,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B47B79224EA2BCC000D7B53 /* MSBIJKAVManager.mm in Sources */,
 				9B47B78924E7E471000D7B53 /* MSBAIApplePlayer.m in Sources */,
 				9B44CBA124AAE5D6009F48DB /* IJKAudioKit.m in Sources */,
 				9B44CBB724AAEC3B009F48DB /* IJKMediaPlayback.m in Sources */,

@@ -9,14 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "MSBAIEnum.h"
-/**
- 1. 需要直接播放
- 2. seek接口只有一个参数
- 3. 去掉手势
- 4. 新播放状态
- 5. MSBStreamPlayer不能使用CGAffineTransform 
- */
-
 
 @protocol MSBAIPlayerProtocol <NSObject>
 
@@ -34,6 +26,7 @@
 @property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
+@property (nonatomic, copy) void (^audioDataBlock)(int sampleRate, int channels, void *data, int size);
 //cancel
 @property (nonatomic, copy) void (^playerStatus)(AVPlayerStatus status, NSError *error);
 @property (nonatomic, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);

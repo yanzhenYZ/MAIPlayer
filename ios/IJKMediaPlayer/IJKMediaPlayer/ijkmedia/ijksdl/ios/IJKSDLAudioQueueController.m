@@ -24,6 +24,7 @@
  */
 
 #import "IJKSDLAudioQueueController.h"
+#import "MSBIJKAVManager.h"
 #import "IJKSDLAudioKit.h"
 #import "ijksdl_log.h"
 
@@ -49,6 +50,7 @@
             self = nil;
             return nil;
         }
+        
         _spec = *aSpec;
 
         if (aSpec->format != AUDIO_S16SYS) {
@@ -252,7 +254,9 @@ static void IJKSDLAudioQueueOuptutCallback(void * inUserData, AudioQueueRef inAQ
         } else {
             (*aqController.spec.callback)(aqController.spec.userdata, inBuffer->mAudioData, inBuffer->mAudioDataByteSize);
         }
-
+        
+        [[MSBIJKAVManager manager] audio:aqController.spec.freq channels:aqController.spec.channels data:inBuffer->mAudioData size:inBuffer->mAudioDataByteSize];
+        
         AudioQueueEnqueueBuffer(inAQ, inBuffer, 0, NULL);
     }
 }
