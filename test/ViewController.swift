@@ -17,24 +17,14 @@ private let video = "http://s2.meixiu.mobi/courseware/test/texiao/ES2U102KABWL/e
 class ViewController: UIViewController {
 
     private var index = 1
+    let context  = CIContext(options: nil)
+    @IBOutlet private weak var smallPlayer: UIImageView!
     @IBOutlet private weak var slider: UISlider!
     @IBOutlet private weak var timeLabel: UILabel!
-    private var subView: UIView!
     private var player: MSBAIPlayer?
-    private var bbViw: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        
-        
-//        subView = PlayerView(frame: CGRect(x: 100, y: 100, width: 10, height: 10))
-//        bbViw = UIView(frame: subView.bounds);
-//        subView.addSubview(bbViw)
-//        view.addSubview(subView)
-
-//        subView = view
-        
         playVideo()
     }
     
@@ -52,12 +42,6 @@ class ViewController: UIViewController {
             player?.pause()
         }
         sender.isSelected.toggle()
-        
-        
-//        player?.play()
-        
-//        player?.seek(toTime: 0)
-//        player?.play()
     }
     
 }
@@ -109,8 +93,33 @@ private extension ViewController {
             self?.timeLabel.text = String(format: "%.f/%.f", time, duration)
         }
         
+        player?.audioDataBlock = { (sampleRate, channels, data, size) in
+//            print(1234, sampleRate, channels, data, size);
+        }
+        
+        player?.videoDataBlock = { [weak self] (buffer) in
+            self?.displayVideo(buffer)
+        }
+        
         player?.loadedTime = { (time, duration) in
 //            print("load:", time, duration)
+        }
+    }
+}
+
+
+private extension ViewController {
+    func displayVideo(_ pixelBuffer: CVPixelBuffer?) {
+        guard let pixelBuffer = pixelBuffer else { return }
+        let ciImage = CIImage(cvImageBuffer: pixelBuffer)
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        guard let videoImageRef = context.createCGImage(ciImage, from: .init(x: 0, y: 0, width: width, height: height)) else {
+            return
+        }
+        let image = UIImage(cgImage: videoImageRef)
+        DispatchQueue.main.async {
+            self.smallPlayer.image = image
         }
     }
 }

@@ -27,6 +27,8 @@
 #include "ijksdl/ijksdl_timer.h"
 #include "ijksdl/ios/ijksdl_ios.h"
 #include "ijksdl/ijksdl_gles2.h"
+#include "ijksdl_vout_overlay_videotoolbox.h"
+#import "MSBIJKAVManager.h"
 
 typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
     IJKSDLGLViewApplicationUnknownState = 0,
@@ -343,6 +345,11 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
 
 - (void)display: (SDL_VoutOverlay *) overlay
 {
+    if (overlay && MSBIJKAVManager.manager.videoToolbox) {
+        CVPixelBufferRef pixel_buffer = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
+        [MSBIJKAVManager.manager displayPixelBuffer:pixel_buffer];
+    }
+    
     if (_didSetupGL == NO)
         return;
 

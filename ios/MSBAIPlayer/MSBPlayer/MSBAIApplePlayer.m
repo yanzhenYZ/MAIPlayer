@@ -23,6 +23,8 @@
 @implementation MSBAIApplePlayer
 @synthesize videoGravity = _videoGravity;
 @synthesize playbackStatus = _playbackStatus;
+@synthesize audioDataBlock = _audioDataBlock;
+@synthesize videoDataBlock = _videoDataBlock;
 
 +(instancetype)playerWithURL:(NSURL *)URL {
     return [[MSBAIApplePlayer alloc] initWithURL:URL];
@@ -177,6 +179,21 @@
     return _player.playerStatus;
 }
 
+- (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
+    _audioDataBlock = audioDataBlock;
+}
+
+- (void (^)(int, int, void *, int))audioDataBlock {
+    return _audioDataBlock;
+}
+
+- (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
+    _videoDataBlock = videoDataBlock;
+}
+
+- (void (^)(CVPixelBufferRef))videoDataBlock {
+    return _videoDataBlock;
+}
 #pragma mark - funcs
 - (void)attachToView:(UIView *)view {
     if (_view == view) {

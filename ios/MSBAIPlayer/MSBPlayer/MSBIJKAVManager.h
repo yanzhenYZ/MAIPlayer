@@ -6,15 +6,17 @@
 //  Copyright © 2020 MSBAI. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface MSBIJKAVManager : NSObject
-
+@property (nonatomic) BOOL videoToolbox;
 @property (nonatomic, copy) void (^audioDataBlock)(int sampleRate, int channels, void *data, int size);
+@property (nonatomic, copy) void (^videoDataBlock)(CVPixelBufferRef pixelBuffer);
 
 + (instancetype)manager;
 
 - (void)audio:(int)freq channels:(int)channels data:(void * const)mAudioData size:(UInt32)size;
+- (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 @end
 

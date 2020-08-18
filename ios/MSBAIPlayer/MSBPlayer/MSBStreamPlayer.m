@@ -31,6 +31,7 @@
 @synthesize playbackStatus = _playbackStatus;
 @synthesize playbackTimeInterval = _playbackTimeInterval;
 @synthesize audioDataBlock = _audioDataBlock;
+@synthesize videoDataBlock = _videoDataBlock;
 
 + (instancetype)playerWithURL:(NSURL *)URL {
     return [[MSBStreamPlayer alloc] initWithURL:URL];
@@ -43,8 +44,11 @@
         _videoGravity = AVLayerVideoGravityResizeAspect;
         _playbackTimeInterval = 1.0f;
         IJKFFOptions *ffOptions = [IJKFFOptions optionsByDefault];
-//        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
-        //[ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
+        
+        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
+        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
+        MSBIJKAVManager.manager.videoToolbox = YES;
+        
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:URL withOptions:ffOptions];
         
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -59,6 +63,13 @@
             __strong MSBStreamPlayer *strongSelf = weakSelf;
             if (strongSelf.audioDataBlock) {
                 strongSelf.audioDataBlock(sampleRate, channels, data, size);
+            }
+        };
+        
+        MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+            __strong MSBStreamPlayer *strongSelf = weakSelf;
+            if (strongSelf.videoDataBlock) {
+                strongSelf.videoDataBlock(pixelBuffer);
             }
         };
     }
@@ -242,6 +253,14 @@
 
 - (void (^)(int, int, void *, int))audioDataBlock {
     return _audioDataBlock;
+}
+
+- (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
+    _videoDataBlock = videoDataBlock;
+}
+
+- (void (^)(CVPixelBufferRef))videoDataBlock {
+    return _videoDataBlock;
 }
 
 #pragma mark - funcs

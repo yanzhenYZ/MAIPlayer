@@ -55,4 +55,10 @@ static id _managet;
         _audioDataBlock(freq, channels, mAudioData, size);
     }
 }
+
+- (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer {
+    if (_videoDataBlock) {
+        _videoDataBlock(pixelBuffer);
+    }
+}
 @end

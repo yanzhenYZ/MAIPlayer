@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -59,10 +59,20 @@
                                     <constraint firstAttribute="trailing" secondItem="8kf-SJ-ykU" secondAttribute="trailing" constant="5" id="hSZ-DG-d6G"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zwh-qp-rFX">
+                                <rect key="frame" x="174" y="44" width="240" height="320"/>
+                                <color key="backgroundColor" red="1" green="0.1960784314" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="320" id="6T0-2B-y7z"/>
+                                    <constraint firstAttribute="width" constant="240" id="8rp-Wi-csa"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Zwh-qp-rFX" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4Yg-Bf-v1v"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="kee-BM-pxn" secondAttribute="bottom" constant="5" id="7wB-mN-pDe"/>
+                            <constraint firstItem="Zwh-qp-rFX" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="STi-Wo-8Mq"/>
                             <constraint firstItem="kee-BM-pxn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WgG-Mp-vYM"/>
                             <constraint firstItem="kee-BM-pxn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vAT-bd-BJX"/>
                         </constraints>
@@ -70,6 +80,7 @@
                     </view>
                     <connections>
                         <outlet property="slider" destination="8kf-SJ-ykU" id="T9b-Lz-fAm"/>
+                        <outlet property="smallPlayer" destination="Zwh-qp-rFX" id="cx8-nc-Uap"/>
                         <outlet property="timeLabel" destination="HBm-qj-58o" id="RuP-Hj-gHh"/>
                     </connections>
                 </viewController>

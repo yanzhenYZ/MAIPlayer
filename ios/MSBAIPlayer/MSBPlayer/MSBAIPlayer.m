@@ -145,6 +145,14 @@
     return _player.audioDataBlock;
 }
 
+- (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
+    _player.videoDataBlock = videoDataBlock;
+}
+
+- (void (^)(CVPixelBufferRef))videoDataBlock {
+    return _player.videoDataBlock;
+}
+
 #pragma mark - func
 - (void)attachToView:(UIView *)view {
     [_player attachToView:view];

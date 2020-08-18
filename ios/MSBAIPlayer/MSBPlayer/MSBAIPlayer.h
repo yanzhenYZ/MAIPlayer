@@ -26,6 +26,7 @@
 @property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
+@property (nonatomic, copy) void (^videoDataBlock)(CVPixelBufferRef pixelBuffer);
 @property (nonatomic, copy) void (^audioDataBlock)(int sampleRate, int channels, void *data, int size);
 //cancel
 @property (nonatomic, copy) void (^playerStatus)(AVPlayerStatus status, NSError *error);
