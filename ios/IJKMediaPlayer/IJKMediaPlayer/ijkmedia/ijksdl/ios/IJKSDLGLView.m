@@ -410,7 +410,8 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
     
     if (!IJK_GLES2_Renderer_renderOverlay(_renderer, overlay))
         ALOGE("[EGL] IJK_GLES2_render failed\n");
-
+    [self streamOutPut:overlay];
+    
     glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 
@@ -425,6 +426,59 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
     } else {
         _frameCount++;
     }
+}
+
+- (void)streamOutPut:(SDL_VoutOverlay *)overlay {
+    if (!MSBIJKAVManager.manager.softOut) { return; }
+    switch (overlay->format) {
+        case SDL_FCC_I420:
+            [self i420Buffer:overlay];
+            break;
+        case SDL_FCC_YV12:
+            [self yv12Buffer:overlay];
+            break;
+        case SDL_FCC_RV16:
+            NSLog(@"SDL_FCC_RV16 = bpp=16, RGB565");
+            break;
+        case SDL_FCC_RV24:
+            NSLog(@"SDL_FCC_RV24 = bpp=24, RGB888");
+            break;
+        case SDL_FCC_RV32:
+            NSLog(@"SDL_FCC_RV32 = bpp=32, RGBX8888");
+            break;
+#ifdef __APPLE__
+        case SDL_FCC_NV12:
+            NSLog(@"SDL_FCC_NV12");
+            break;
+        case SDL_FCC__VTB:
+            NSLog(@"SDL_FCC__VTB = iOS VideoToolbox");
+            break;
+#endif
+        case SDL_FCC_I444P10LE:
+            NSLog(@"SDL_FCC_I444P10LE");
+            break;
+        default:
+            ALOGE("[GLES2] IJKSDL unknown format %4s(%d)\n", (char *)&overlay->format, overlay->format);
+            break;
+    }
+}
+
+- (void)i420Buffer:(SDL_VoutOverlay *)overlay {
+    uint8_t *yPlane = overlay->pixels[0];
+    uint8_t *uPlane = overlay->pixels[1];
+    uint8_t *vPlane = overlay->pixels[2];
+    int width = overlay->pitches[0];
+    int height = overlay->h;
+    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height];
+}
+
+- (void)yv12Buffer:(SDL_VoutOverlay *)overlay {
+    uint8_t *yPlane = overlay->pixels[0];
+    uint8_t *uPlane = overlay->pixels[2];
+    uint8_t *vPlane = overlay->pixels[1];
+    int width = overlay->pitches[0];
+    int height = overlay->h;
+    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height];
 }
 
 #pragma mark AppDelegate

@@ -102,7 +102,7 @@ private extension ViewController {
         }
         
         player?.loadedTime = { (time, duration) in
-//            print("load:", time, duration)
+            print("load:", time, duration)
         }
     }
 }

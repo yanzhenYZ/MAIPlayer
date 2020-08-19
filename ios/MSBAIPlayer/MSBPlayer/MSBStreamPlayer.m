@@ -45,9 +45,9 @@
         _playbackTimeInterval = 1.0f;
         IJKFFOptions *ffOptions = [IJKFFOptions optionsByDefault];
         
-        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
-        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
-        MSBIJKAVManager.manager.videoToolbox = YES;
+//        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
+//        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
+//        MSBIJKAVManager.manager.videoToolbox = YES;
         
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:URL withOptions:ffOptions];
         
@@ -58,20 +58,6 @@
         _player.shouldAutoplay = NO;
         [self addObserver];
         [_player prepareToPlay];
-        __weak MSBStreamPlayer *weakSelf = self;
-        MSBIJKAVManager.manager.audioDataBlock = ^(int sampleRate, int channels, void *data, int size) {
-            __strong MSBStreamPlayer *strongSelf = weakSelf;
-            if (strongSelf.audioDataBlock) {
-                strongSelf.audioDataBlock(sampleRate, channels, data, size);
-            }
-        };
-        
-        MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
-            __strong MSBStreamPlayer *strongSelf = weakSelf;
-            if (strongSelf.videoDataBlock) {
-                strongSelf.videoDataBlock(pixelBuffer);
-            }
-        };
     }
     return self;
 }
@@ -249,6 +235,17 @@
 
 - (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
     _audioDataBlock = audioDataBlock;
+    if (_audioDataBlock) {
+        __weak MSBStreamPlayer *weakSelf = self;
+        MSBIJKAVManager.manager.audioDataBlock = ^(int sampleRate, int channels, void *data, int size) {
+            __strong MSBStreamPlayer *strongSelf = weakSelf;
+            if (strongSelf.audioDataBlock) {
+                strongSelf.audioDataBlock(sampleRate, channels, data, size);
+            }
+        };
+    } else {
+        MSBIJKAVManager.manager.audioDataBlock = nil;
+    }
 }
 
 - (void (^)(int, int, void *, int))audioDataBlock {
@@ -257,6 +254,17 @@
 
 - (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
     _videoDataBlock = videoDataBlock;
+    if (videoDataBlock) {
+        __weak MSBStreamPlayer *weakSelf = self;
+        MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+            __strong MSBStreamPlayer *strongSelf = weakSelf;
+            if (strongSelf.videoDataBlock) {
+                strongSelf.videoDataBlock(pixelBuffer);
+            }
+        };
+    } else {
+        MSBIJKAVManager.manager.videoDataBlock = nil;
+    }
 }
 
 - (void (^)(CVPixelBufferRef))videoDataBlock {
