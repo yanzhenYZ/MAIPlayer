@@ -14,6 +14,8 @@
 + (instancetype)playerWithURL:(NSURL *)URL;
 - (instancetype)initWithURL:(NSURL *)URL;
 
+- (instancetype)initWithURL:(NSURL *)URL mode:(MSBVideoDecoderMode)mode;
+
 @end
 
 

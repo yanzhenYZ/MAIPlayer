@@ -38,7 +38,7 @@
 
 //if m3u8 not use apple
 - (instancetype)initWithURL:(NSURL *)URL;
-- (instancetype)initWithURL:(NSURL *)URL apple:(BOOL)apple;
+- (instancetype)initWithURL:(NSURL *)URL mode:(MSBVideoDecoderMode)mode;
 
 - (void)attachToView:(UIView *)view;
 

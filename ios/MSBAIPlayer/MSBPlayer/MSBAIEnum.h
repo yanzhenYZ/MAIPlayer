@@ -15,3 +15,15 @@ typedef NS_ENUM(NSInteger, MSBAIPlaybackStatus) {
     MSBAIPlaybackStatusPaused,
     MSBAIPlaybackStatusEnded,
 };
+
+
+typedef NS_ENUM(NSInteger, MSBVideoDecoderMode) {
+    //硬件解码同步
+    MSBVideoDecoderModeToolBoxSync,
+    //硬件解码异步
+    MSBVideoDecoderModeToolBoxAsync,
+    //系统AVPlayer
+    MSBVideoDecoderModeDisplayLayer,
+    //视频软件解码
+    MSBVideoDecoderModeSoftware,
+};

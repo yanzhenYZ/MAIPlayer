@@ -31,31 +31,24 @@
 
 @implementation MSBAIPlayer
 - (instancetype)initWithURL:(NSURL *)URL {
-    if (self = [super init]) {
-        _URL = URL;
-//        NSString *url = URL.absoluteString.lowercaseString;
-        //[self createPlayer:![url containsString:@".m3u8"]];
-        [self createPlayer:YES];
-    }
-    return self;
+    return [self initWithURL:URL mode:MSBVideoDecoderModeToolBoxSync];
 }
 
-- (instancetype)initWithURL:(NSURL *)URL apple:(BOOL)apple {
+- (instancetype)initWithURL:(NSURL *)URL mode:(MSBVideoDecoderMode)mode {
     if (self = [super init]) {
         _URL = URL;
-        [self createPlayer:apple];
+        switch (mode) {
+            case MSBVideoDecoderModeToolBoxSync:
+            case MSBVideoDecoderModeToolBoxAsync:
+            case MSBVideoDecoderModeSoftware:
+                _player = [[MSBStreamPlayer alloc] initWithURL:_URL mode:mode];
+                break;
+            default:
+                _player = [[MSBAIApplePlayer alloc] initWithURL:_URL];
+                break;
+        }
     }
     return self;
-}
-
-
-- (void)createPlayer:(BOOL)apple {
-    if (apple) {
-        _player = [[MSBAIApplePlayer alloc] initWithURL:_URL];
-    } else {
-        _player = [[MSBStreamPlayer alloc] initWithURL:_URL];
-    }
-    
 }
 
 #pragma mark - property readonly

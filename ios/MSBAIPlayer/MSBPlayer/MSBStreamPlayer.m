@@ -9,6 +9,7 @@
 #import "MSBStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
+//#import "MSBAVScaleManager.h"
 
 @interface MSBStreamPlayer ()
 @property (nonatomic, assign) IJKMPMoviePlaybackState ijkStatus;
@@ -21,6 +22,8 @@
 
 @property (nonatomic, assign) int tStatus;
 @property (nonatomic, assign) BOOL shutDown;
+
+//@property (nonatomic, strong) MSBAVScaleManager *manage;
 @end
 
 @implementation MSBStreamPlayer
@@ -37,20 +40,34 @@
     return [[MSBStreamPlayer alloc] initWithURL:URL];
 }
 
-
 - (instancetype)initWithURL:(NSURL *)URL {
+    return [self initWithURL:URL mode:MSBVideoDecoderModeToolBoxSync];
+}
+
+- (instancetype)initWithURL:(NSURL *)URL mode:(MSBVideoDecoderMode)mode {
     if (self = [super init]) {
         _videoUrl = URL;
         _videoGravity = AVLayerVideoGravityResizeAspect;
         _playbackTimeInterval = 1.0f;
         IJKFFOptions *ffOptions = [IJKFFOptions optionsByDefault];
         
-//        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
-//        [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
-//        MSBIJKAVManager.manager.videoToolbox = YES;
+        switch (mode) {
+            case MSBVideoDecoderModeToolBoxSync:
+                [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
+                MSBIJKAVManager.manager.videoToolbox = YES;
+                break;
+            case MSBVideoDecoderModeToolBoxAsync:
+                [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
+                [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox-async"];
+                MSBIJKAVManager.manager.videoToolbox = YES;
+                break;
+            default:
+                break;
+        }
+        
+//        _manage = [[MSBAVScaleManager alloc] init];
         
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:URL withOptions:ffOptions];
-        
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _videoStatus = MSBAIPlaybackStatusBuffering;
         _ijkStatus = IJKMPMoviePlaybackStatePaused;
@@ -61,7 +78,6 @@
     }
     return self;
 }
-
 
 - (void)addObserver {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStatusDidChange:)

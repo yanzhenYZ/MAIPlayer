@@ -74,6 +74,7 @@
 #include "ijkversion.h"
 #include "ijkplayer.h"
 #include <stdatomic.h>
+#include "MSBLocal.h"
 
 #if defined(__ANDROID__)
 #include "ijksoundtouch/ijksoundtouch_wrap.h"
@@ -593,6 +594,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
                             } else if (!ffp->decoder_reorder_pts) {
                                 frame->pts = frame->pkt_dts;
                             }
+                            video_scale(d->avctx, frame);
                         }
                         break;
                     case AVMEDIA_TYPE_AUDIO:
