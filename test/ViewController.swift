@@ -48,7 +48,7 @@ class ViewController: UIViewController {
 
 private extension ViewController {
     func playVideo() {
-        let path = Bundle.main.path(forResource: "8tea", ofType: "mp4")
+        let path = Bundle.main.path(forResource: "1", ofType: "mp4")
         
         let url = URL(fileURLWithPath: path!)
 //        let url = URL(string: "http://39.107.116.40/res/tpl/default/file/guoke.mp4")
@@ -102,7 +102,7 @@ private extension ViewController {
         }
         
         player?.loadedTime = { (time, duration) in
-            print("load:", time, duration)
+//            print("load:", time, duration)
         }
     }
 }

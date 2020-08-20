@@ -91,13 +91,13 @@ static id _managet;
     //size_t dstHUV = CVPixelBufferGetHeightOfPlane(pixelBuffer, 1);
     //出现偏移量会出现绿边的问题
     unsigned char *yDestPlane = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
-    size_t offsetY = (dstStrideY - width) / 2;
+    size_t offsetY = (dstStrideY - width) / 4;//?? / 2
     for (int i = 0; i < height; i++) {
         memcpy(yDestPlane + dstStrideY * i + offsetY, yBuffer + width * i, width);
     }
     
     unsigned char *uvDestPlane = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
-    size_t offsetUV = (dstStrideUV - width) / 2;
+    size_t offsetUV = (dstStrideUV - width) / 4;
     for (int i = 0; i < height / 2; i++) {
         for (int j = 0; j < width / 2; j++) {
             unsigned long uvIndex = dstStrideUV * i + offsetUV + j * 2;
@@ -105,10 +105,9 @@ static id _managet;
             uvDestPlane[uvIndex + 1] = vBuffer[width / 2 * i + j];
         }
     }
+    
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-    if (_videoDataBlock) {
-        _videoDataBlock(pixelBuffer);
-    }
+    [self displayPixelBuffer:pixelBuffer];
     CVPixelBufferRelease(pixelBuffer);
 }
 @end
