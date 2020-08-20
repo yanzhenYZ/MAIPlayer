@@ -429,7 +429,7 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
 }
 
 - (void)streamOutPut:(SDL_VoutOverlay *)overlay {
-    if (!MSBIJKAVManager.manager.softOut) { return; }
+    if (!MSBIJKAVManager.manager.softOut || !overlay) { return; }
     switch (overlay->format) {
         case SDL_FCC_I420:
             [self i420Buffer:overlay];

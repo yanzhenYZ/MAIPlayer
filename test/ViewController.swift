@@ -48,10 +48,10 @@ class ViewController: UIViewController {
 
 private extension ViewController {
     func playVideo() {
-        let path = Bundle.main.path(forResource: "2", ofType: "mp4")
+        let path = Bundle.main.path(forResource: "8tea", ofType: "mp4")
         
         let url = URL(fileURLWithPath: path!)
-//        let url = URL(string: "https://xiaoxiong-private.oss-cn-hangzhou.aliyuncs.com/courseware/test/temp/675ee040ba8111eaa93d315dba0324be.mp4")
+//        let url = URL(string: "http://39.107.116.40/res/tpl/default/file/guoke.mp4")
             //URL(string: "https://xiaoxiong-private.oss-cn-hangzhou.aliyuncs.com/courseware/product/temp/0ac7c090c4d611ea8ad70b2b8db29493.mp4")
         
         
