@@ -80,8 +80,9 @@
 
 - (void)autoBGRA:(int)width height:(int)height data:(NSData *)data {
     uint8_t *buffer = (uint8_t *)data.bytes;
-    uint8_t *bgraBuffer = new uint8_t[width * height * 4] {0};
-    libyuv::I420ToARGB(buffer, width, buffer + width * height, width /  2, buffer + width * height * 5 / 4, width /  2, bgraBuffer, width * 4, width, height);
+    
+    uint8_t *bgraBuffer = malloc(width * height * 4);
+    I420ToARGB(buffer, width, buffer + width * height, width /  2, buffer + width * height * 5 / 4, width /  2, bgraBuffer, width * 4, width, height);
 
     CVPixelBufferRef pixelBuffer = NULL;
     CVReturn result = CVPixelBufferCreateWithBytes(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, bgraBuffer, width * 4, NULL, NULL, NULL, &pixelBuffer);
