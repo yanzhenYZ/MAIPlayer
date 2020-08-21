@@ -57,7 +57,7 @@ private extension ViewController {
         
 //        player = MSBAIApplePlayer(url: url)
 //        player = MSBAIPlayer(url: url)
-        player = MSBAIPlayer(url: url, mode: .software)
+        player = MSBAIPlayer(url: url, mode: .toolBoxSync)
         player?.videoGravity = .resizeAspect
         player?.attach(to: view)
         
