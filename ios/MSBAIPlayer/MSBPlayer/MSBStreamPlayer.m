@@ -9,9 +9,9 @@
 #import "MSBStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
-//#import "MSBAVScaleManager.h"
+#import "MSBAVScaleManager.h"
 
-@interface MSBStreamPlayer ()
+@interface MSBStreamPlayer ()<MSBAVScaleManagerDelegate>
 @property (nonatomic, assign) IJKMPMoviePlaybackState ijkStatus;
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
 @property (nonatomic, weak) UIView *view;
@@ -23,7 +23,7 @@
 @property (nonatomic, assign) int tStatus;
 @property (nonatomic, assign) BOOL shutDown;
 
-//@property (nonatomic, strong) MSBAVScaleManager *manage;
+@property (nonatomic, strong) MSBAVScaleManager *manage;
 @end
 
 @implementation MSBStreamPlayer
@@ -35,6 +35,7 @@
 @synthesize playbackTimeInterval = _playbackTimeInterval;
 @synthesize audioDataBlock = _audioDataBlock;
 @synthesize videoDataBlock = _videoDataBlock;
+@synthesize yuvDataBlock = _yuvDataBlock;
 
 + (instancetype)playerWithURL:(NSURL *)URL {
     return [[MSBStreamPlayer alloc] initWithURL:URL];
@@ -64,8 +65,6 @@
             default:
                 break;
         }
-        
-//        _manage = [[MSBAVScaleManager alloc] init];
         
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:URL withOptions:ffOptions];
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -287,6 +286,20 @@
     return _videoDataBlock;
 }
 
+- (void)setYuvDataBlock:(void (^)(int, int, NSData *))yuvDataBlock {
+    _yuvDataBlock = yuvDataBlock;
+    if (yuvDataBlock) {
+        _manage = [[MSBAVScaleManager alloc] init];
+        _manage.delegate = self;
+    } else {
+        _manage = nil;
+    }
+}
+
+- (void (^)(int, int, NSData *))yuvDataBlock {
+    return _yuvDataBlock;
+}
+
 #pragma mark - funcs
 - (void)attachToView:(UIView *)view {
     if (_view == view) {
@@ -346,5 +359,12 @@
         });
     }
     [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+#pragma mark - MSBAVScaleManagerDelegate
+- (void)manager:(MSBAVScaleManager *)manager videoData:(NSData *)data width:(int)width height:(int)height {
+    if (_yuvDataBlock) {
+        _yuvDataBlock(width, height, data);
+    }
 }
 @end

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MSBPlayer/MSBPlayer.h>
+#import "libyuv.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *smallPlayer;
@@ -64,10 +65,35 @@
 //    };
     
     
-    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
-        [weakSelf displayVideo:pixelBuffer];
+//    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+//        [weakSelf displayVideo:pixelBuffer];
+//    };
+    
+    
+    _player.yuvDataBlock = ^(int width, int height, NSData *data) {
+        @autoreleasepool {//must do this
+            [weakSelf autoBGRA:width height:height data:data];
+        }
     };
     
+}
+
+- (void)autoBGRA:(int)width height:(int)height data:(NSData *)data {
+    uint8_t *buffer = (uint8_t *)data.bytes;
+    uint8_t *bgraBuffer = new uint8_t[width * height * 4] {0};
+    libyuv::I420ToARGB(buffer, width, buffer + width * height, width /  2, buffer + width * height * 5 / 4, width /  2, bgraBuffer, width * 4, width, height);
+
+    CVPixelBufferRef pixelBuffer = NULL;
+    CVReturn result = CVPixelBufferCreateWithBytes(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, bgraBuffer, width * 4, NULL, NULL, NULL, &pixelBuffer);
+    if (result != kCVReturnSuccess) {
+        NSLog(@"MSB 002 Unable to create cvpixelbuffer %d", result);
+        return;
+    }
+    
+    [self displayVideo:pixelBuffer];
+    CVPixelBufferRelease(pixelBuffer);
+    free(bgraBuffer);
+    bgraBuffer = NULL;
 }
 
 - (IBAction)playOrPause:(UIButton *)sender {
@@ -95,7 +121,7 @@
     }
     
     UIImage *image = [UIImage imageWithCGImage:imageRef];
-    CFRelease(imageRef);
+    CGImageRelease(imageRef);
     dispatch_async(dispatch_get_main_queue(), ^{
         self.smallPlayer.image = image;
     });

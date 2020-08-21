@@ -146,6 +146,14 @@
     return _player.videoDataBlock;
 }
 
+- (void)setYuvDataBlock:(void (^)(int, int, NSData *))yuvDataBlock {
+    _player.yuvDataBlock = yuvDataBlock;
+}
+
+- (void (^)(int, int, NSData *))yuvDataBlock {
+    return _player.yuvDataBlock;
+}
+
 #pragma mark - func
 - (void)attachToView:(UIView *)view {
     [_player attachToView:view];

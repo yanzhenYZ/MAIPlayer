@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9B38F31E24EF9CDB00D5E192 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B38F31D24EF9CDB00D5E192 /* AppDelegate.m */; };
-		9B38F32424EF9CDB00D5E192 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B38F32324EF9CDB00D5E192 /* ViewController.m */; };
+		9B38F32424EF9CDB00D5E192 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9B38F32324EF9CDB00D5E192 /* ViewController.mm */; };
 		9B38F32724EF9CDB00D5E192 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B38F32524EF9CDB00D5E192 /* Main.storyboard */; };
 		9B38F32924EF9CDE00D5E192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B38F32824EF9CDE00D5E192 /* Assets.xcassets */; };
 		9B38F32C24EF9CDE00D5E192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B38F32A24EF9CDE00D5E192 /* LaunchScreen.storyboard */; };
@@ -28,6 +28,7 @@
 		9B38F34F24EF9D7000D5E192 /* 9.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9B38F34224EF9D7000D5E192 /* 9.mp4 */; };
 		9B38F35224EFA1A700D5E192 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F35124EFA1A700D5E192 /* libc++.tbd */; };
 		9B38F35424EFA1B500D5E192 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F35324EFA1B500D5E192 /* libz.tbd */; };
+		9B38F3F924EFBE7F00D5E192 /* libyuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F3E324EFBE7F00D5E192 /* libyuv.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +36,7 @@
 		9B38F31C24EF9CDB00D5E192 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B38F31D24EF9CDB00D5E192 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9B38F32224EF9CDB00D5E192 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9B38F32324EF9CDB00D5E192 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		9B38F32324EF9CDB00D5E192 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		9B38F32624EF9CDB00D5E192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B38F32824EF9CDE00D5E192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B38F32B24EF9CDE00D5E192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,6 +57,28 @@
 		9B38F34224EF9D7000D5E192 /* 9.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 9.mp4; sourceTree = "<group>"; };
 		9B38F35124EFA1A700D5E192 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9B38F35324EFA1B500D5E192 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9B38F3E224EFBE7F00D5E192 /* libyuv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libyuv.h; sourceTree = "<group>"; };
+		9B38F3E324EFBE7F00D5E192 /* libyuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libyuv.a; sourceTree = "<group>"; };
+		9B38F3E524EFBE7F00D5E192 /* scale_row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale_row.h; sourceTree = "<group>"; };
+		9B38F3E624EFBE7F00D5E192 /* scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale.h; sourceTree = "<group>"; };
+		9B38F3E724EFBE7F00D5E192 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		9B38F3E824EFBE7F00D5E192 /* cpu_id.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpu_id.h; sourceTree = "<group>"; };
+		9B38F3E924EFBE7F00D5E192 /* video_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video_common.h; sourceTree = "<group>"; };
+		9B38F3EA24EFBE7F00D5E192 /* compare_row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compare_row.h; sourceTree = "<group>"; };
+		9B38F3EB24EFBE7F00D5E192 /* mjpeg_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mjpeg_decoder.h; sourceTree = "<group>"; };
+		9B38F3EC24EFBE7F00D5E192 /* rotate_row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rotate_row.h; sourceTree = "<group>"; };
+		9B38F3ED24EFBE7F00D5E192 /* planar_functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = planar_functions.h; sourceTree = "<group>"; };
+		9B38F3EE24EFBE7F00D5E192 /* scale_argb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale_argb.h; sourceTree = "<group>"; };
+		9B38F3EF24EFBE7F00D5E192 /* compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compare.h; sourceTree = "<group>"; };
+		9B38F3F024EFBE7F00D5E192 /* convert_argb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convert_argb.h; sourceTree = "<group>"; };
+		9B38F3F124EFBE7F00D5E192 /* rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rotate.h; sourceTree = "<group>"; };
+		9B38F3F224EFBE7F00D5E192 /* convert_from_argb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convert_from_argb.h; sourceTree = "<group>"; };
+		9B38F3F324EFBE7F00D5E192 /* basic_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basic_types.h; sourceTree = "<group>"; };
+		9B38F3F424EFBE7F00D5E192 /* convert_from.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convert_from.h; sourceTree = "<group>"; };
+		9B38F3F524EFBE7F00D5E192 /* convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convert.h; sourceTree = "<group>"; };
+		9B38F3F624EFBE7F00D5E192 /* rotate_argb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rotate_argb.h; sourceTree = "<group>"; };
+		9B38F3F724EFBE7F00D5E192 /* macros_msa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros_msa.h; sourceTree = "<group>"; };
+		9B38F3F824EFBE7F00D5E192 /* row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = row.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B38F3F924EFBE7F00D5E192 /* libyuv.a in Frameworks */,
 				9B38F35424EFA1B500D5E192 /* libz.tbd in Frameworks */,
 				9B38F35224EFA1A700D5E192 /* libc++.tbd in Frameworks */,
 			);
@@ -94,7 +118,8 @@
 				9B38F31C24EF9CDB00D5E192 /* AppDelegate.h */,
 				9B38F31D24EF9CDB00D5E192 /* AppDelegate.m */,
 				9B38F32224EF9CDB00D5E192 /* ViewController.h */,
-				9B38F32324EF9CDB00D5E192 /* ViewController.m */,
+				9B38F32324EF9CDB00D5E192 /* ViewController.mm */,
+				9B38F3E124EFBE7F00D5E192 /* libyuv */,
 				9B38F33524EF9D7000D5E192 /* mp4 */,
 				9B38F32524EF9CDB00D5E192 /* Main.storyboard */,
 				9B38F32824EF9CDE00D5E192 /* Assets.xcassets */,
@@ -133,6 +158,43 @@
 				9B38F35124EFA1A700D5E192 /* libc++.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9B38F3E124EFBE7F00D5E192 /* libyuv */ = {
+			isa = PBXGroup;
+			children = (
+				9B38F3E224EFBE7F00D5E192 /* libyuv.h */,
+				9B38F3E324EFBE7F00D5E192 /* libyuv.a */,
+				9B38F3E424EFBE7F00D5E192 /* libyuv */,
+			);
+			path = libyuv;
+			sourceTree = "<group>";
+		};
+		9B38F3E424EFBE7F00D5E192 /* libyuv */ = {
+			isa = PBXGroup;
+			children = (
+				9B38F3E524EFBE7F00D5E192 /* scale_row.h */,
+				9B38F3E624EFBE7F00D5E192 /* scale.h */,
+				9B38F3E724EFBE7F00D5E192 /* version.h */,
+				9B38F3E824EFBE7F00D5E192 /* cpu_id.h */,
+				9B38F3E924EFBE7F00D5E192 /* video_common.h */,
+				9B38F3EA24EFBE7F00D5E192 /* compare_row.h */,
+				9B38F3EB24EFBE7F00D5E192 /* mjpeg_decoder.h */,
+				9B38F3EC24EFBE7F00D5E192 /* rotate_row.h */,
+				9B38F3ED24EFBE7F00D5E192 /* planar_functions.h */,
+				9B38F3EE24EFBE7F00D5E192 /* scale_argb.h */,
+				9B38F3EF24EFBE7F00D5E192 /* compare.h */,
+				9B38F3F024EFBE7F00D5E192 /* convert_argb.h */,
+				9B38F3F124EFBE7F00D5E192 /* rotate.h */,
+				9B38F3F224EFBE7F00D5E192 /* convert_from_argb.h */,
+				9B38F3F324EFBE7F00D5E192 /* basic_types.h */,
+				9B38F3F424EFBE7F00D5E192 /* convert_from.h */,
+				9B38F3F524EFBE7F00D5E192 /* convert.h */,
+				9B38F3F624EFBE7F00D5E192 /* rotate_argb.h */,
+				9B38F3F724EFBE7F00D5E192 /* macros_msa.h */,
+				9B38F3F824EFBE7F00D5E192 /* row.h */,
+			);
+			path = libyuv;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,7 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B38F32424EF9CDB00D5E192 /* ViewController.m in Sources */,
+				9B38F32424EF9CDB00D5E192 /* ViewController.mm in Sources */,
 				9B38F31E24EF9CDB00D5E192 /* AppDelegate.m in Sources */,
 				9B38F32F24EF9CDE00D5E192 /* main.m in Sources */,
 			);
@@ -363,10 +425,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R57G8CYRFG;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/player";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/test/libyuv/";
 				INFOPLIST_FILE = test/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/test/libyuv",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -385,10 +453,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R57G8CYRFG;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/player";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/test/libyuv/";
 				INFOPLIST_FILE = test/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/test/libyuv",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

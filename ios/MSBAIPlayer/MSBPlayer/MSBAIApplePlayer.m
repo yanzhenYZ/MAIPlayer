@@ -25,6 +25,7 @@
 @synthesize playbackStatus = _playbackStatus;
 @synthesize audioDataBlock = _audioDataBlock;
 @synthesize videoDataBlock = _videoDataBlock;
+@synthesize yuvDataBlock = _yuvDataBlock;
 
 +(instancetype)playerWithURL:(NSURL *)URL {
     return [[MSBAIApplePlayer alloc] initWithURL:URL];
@@ -194,6 +195,15 @@
 - (void (^)(CVPixelBufferRef))videoDataBlock {
     return _videoDataBlock;
 }
+
+- (void)setYuvDataBlock:(void (^)(int, int, NSData *))yuvDataBlock {
+    _yuvDataBlock = yuvDataBlock;
+}
+
+- (void (^)(int, int, NSData *))yuvDataBlock {
+    return _yuvDataBlock;
+}
+
 #pragma mark - funcs
 - (void)attachToView:(UIView *)view {
     if (_view == view) {
