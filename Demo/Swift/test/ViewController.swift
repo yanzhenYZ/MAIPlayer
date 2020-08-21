@@ -60,10 +60,7 @@ private extension ViewController {
         player = MSBAIPlayer(url: url, mode: .toolBoxSync)
         player?.videoGravity = .resizeAspect
         player?.attach(to: view)
-        
-        player?.audioDataBlock = { (sampleRate, channels, data, size) in
-            print(3467, sampleRate, channels, data, size)
-        }
+    
         
         player?.playerStatus = { [weak self] (status, error) in
             print("status:", status.rawValue, error)
@@ -94,7 +91,7 @@ private extension ViewController {
         }
         
         player?.audioDataBlock = { (sampleRate, channels, data, size) in
-//            print(1234, sampleRate, channels, data, size);
+            print(1234, sampleRate, channels, data, size);
         }
         
         player?.videoDataBlock = { [weak self] (buffer) in

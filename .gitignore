@@ -7,3 +7,5 @@ temps/
 build/
 mp4/
 Frameworks/
+*.a
+libyuv/
