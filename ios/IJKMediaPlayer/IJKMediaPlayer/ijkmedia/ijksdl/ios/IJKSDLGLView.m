@@ -412,9 +412,12 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
         ALOGE("[EGL] IJK_GLES2_render failed\n");
     [self streamOutPut:overlay];
     
+    
     glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 
+    //[self newTest:overlay];
+    
     int64_t current = (int64_t)SDL_GetTickHR();
     int64_t delta   = (current > _lastFrameTime) ? current - _lastFrameTime : 0;
     if (delta <= 0) {
@@ -467,18 +470,18 @@ typedef NS_ENUM(NSInteger, IJKSDLGLViewApplicationState) {
     uint8_t *yPlane = overlay->pixels[0];
     uint8_t *uPlane = overlay->pixels[1];
     uint8_t *vPlane = overlay->pixels[2];
-    int width = overlay->pitches[0];
+    int width = overlay->w;
     int height = overlay->h;
-    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height];
+    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height dataWidth:overlay->pitches[0]];
 }
 
 - (void)yv12Buffer:(SDL_VoutOverlay *)overlay {
     uint8_t *yPlane = overlay->pixels[0];
     uint8_t *uPlane = overlay->pixels[2];
     uint8_t *vPlane = overlay->pixels[1];
-    int width = overlay->pitches[0];
+    int width = overlay->w;//overlay->pitches[0];
     int height = overlay->h;
-    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height];
+    [MSBIJKAVManager.manager yuv420PToPixelBuffer:yPlane vBuffer:uPlane uBuffer:vPlane width:width height:height dataWidth:overlay->pitches[0]];
 }
 
 #pragma mark AppDelegate

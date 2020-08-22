@@ -7,6 +7,7 @@
 //
 
 #import "MSBAVScaleManager.h"
+//#import "MSBIJKAVManager.h" //todo
 #import "MSBMedia.h"
 
 static int MSBVideoScaleCallBack(uint8_t* data, int width, int height) {
@@ -34,11 +35,13 @@ static int MSBVideoScaleCallBack(uint8_t* data, int width, int height) {
     NSData *data = note.object;
     int width = [note.userInfo[@"width"] intValue];
     int height = [note.userInfo[@"height"] intValue];
+    uint8_t *buffer = (uint8_t *)data.bytes;
+//    [MSBIJKAVManager.manager yuv420PToPixelBuffer:buffer vBuffer:buffer + width * height * 5 / 4 uBuffer:buffer + width * height  width:width height:height];
+    
     if ([_delegate respondsToSelector:@selector(manager:videoData:width:height:)]) {
         [_delegate manager:self videoData:data width:width height:height];
     }
 }
-
 
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];

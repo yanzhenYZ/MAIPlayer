@@ -19,7 +19,7 @@
 - (void)audio:(int)freq channels:(int)channels data:(void * const)mAudioData size:(UInt32)size;
 - (void)displayPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
--(void)yuv420PToPixelBuffer:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height;
+-(void)yuv420PToPixelBuffer:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height dataWidth:(int)dataWidth;
 @end
 
 

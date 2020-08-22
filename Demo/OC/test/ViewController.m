@@ -17,6 +17,7 @@
 @property (nonatomic, strong) CIContext *context;
 
 @property (nonatomic, strong) MSBAIPlayer *player;
+@property (nonatomic, assign) BOOL isRead;
 @end
 
 @implementation ViewController
@@ -25,6 +26,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self playVideo];
+    return;
+    CVPixelBufferRef pixelBuffer = NULL;
+    NSDictionary *pixelAttributes = @{(NSString *)kCVPixelBufferIOSurfacePropertiesKey:@{}};
+    CVReturn result = CVPixelBufferCreate(kCFAllocatorDefault,
+                                            928,
+                                            1200,
+                                            kCVPixelFormatType_32BGRA,
+                                            (__bridge CFDictionaryRef)(pixelAttributes),
+                                            &pixelBuffer);
+    if (result != kCVReturnSuccess) {
+        NSLog(@"MSB 002 Unable to create cvpixelbuffer %d", result);
+        return;
+    }
+    
+    NSLog(@"0000---%d:%d", CVPixelBufferGetBytesPerRow(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
     
 }
 
@@ -70,11 +86,11 @@
 //    };
     
     
-    _player.yuvDataBlock = ^(int width, int height, NSData *data) {
-        @autoreleasepool {//must do this
-            [weakSelf autoBGRA:width height:height data:data];
-        }
-    };
+//    _player.yuvDataBlock = ^(int width, int height, NSData *data) {
+//        @autoreleasepool {//must do this
+//            [weakSelf autoBGRA:width height:height data:data];
+//        }
+//    };
     
 }
 

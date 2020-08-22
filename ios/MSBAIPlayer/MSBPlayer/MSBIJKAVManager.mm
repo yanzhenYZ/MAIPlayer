@@ -66,11 +66,11 @@ static id _managet;
     }
 }
 
-- (void)yuv420PToPixelBuffer:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height {
-    [self pixelBufferFromYUV:yBuffer vBuffer:uBuffer uBuffer:vBuffer width:width height:height];
+- (void)yuv420PToPixelBuffer:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height dataWidth:(int)dataWidth {
+    [self pixelBufferFromYUV:yBuffer vBuffer:uBuffer uBuffer:vBuffer width:width height:height dataWidth:dataWidth];
 }
 
--(void)pixelBufferFromYUV:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height  {
+-(void)pixelBufferFromYUV:(uint8_t *)yBuffer vBuffer:(uint8_t *)uBuffer uBuffer:(uint8_t *)vBuffer width:(int)width height:(int)height dataWidth:(int)dataWidth {
     NSDictionary *pixelAttributes = @{(NSString *)kCVPixelBufferIOSurfacePropertiesKey:@{}};
     
     CVPixelBufferRef pixelBuffer = NULL;
@@ -84,25 +84,27 @@ static id _managet;
         NSLog(@"MSB 002 Unable to create cvpixelbuffer %d", result);
         return;
     }
+    
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     size_t dstStrideY  = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0);
     size_t dstStrideUV = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1);
     //size_t dstHY = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0);
     //size_t dstHUV = CVPixelBufferGetHeightOfPlane(pixelBuffer, 1);
-    //出现偏移量会出现绿边的问题
     unsigned char *yDestPlane = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
-    size_t offsetY = (dstStrideY - width) / 4;//?? / 2
+    size_t realY = dataWidth;
+    if (dstStrideY < realY) {
+        realY = dstStrideY;
+    }
     for (int i = 0; i < height; i++) {
-        memcpy(yDestPlane + dstStrideY * i + offsetY, yBuffer + width * i, width);
+        memcpy(yDestPlane + dstStrideY * i + 0, yBuffer + realY * i, realY);
     }
     
     unsigned char *uvDestPlane = (unsigned char *)CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1);
-    size_t offsetUV = (dstStrideUV - width) / 4;
     for (int i = 0; i < height / 2; i++) {
         for (int j = 0; j < width / 2; j++) {
-            unsigned long uvIndex = dstStrideUV * i + offsetUV + j * 2;
-            uvDestPlane[uvIndex] = uBuffer[width / 2 * i + j];
-            uvDestPlane[uvIndex + 1] = vBuffer[width / 2 * i + j];
+            unsigned long uvIndex = dstStrideUV * i + j * 2;
+            uvDestPlane[uvIndex] = uBuffer[realY / 2 * i + j];
+            uvDestPlane[uvIndex + 1] = vBuffer[realY / 2 * i + j];
         }
     }
     
