@@ -23,14 +23,13 @@
     return self;
 }
 
-- (instancetype)initWithURL:(NSURL *)URL apple:(BOOL)apple {
+- (instancetype)initWithURL:(NSURL *)URL mode:(MSBVideoDecoderMode)mode {
     if (self = [super init]) {
         _URL = URL;
-        [self createPlayer:apple];
+        [self createPlayer:NO];
     }
     return self;
 }
-
 
 - (void)createPlayer:(BOOL)apple {
     _player = [[MSBAIApplePlayer alloc] initWithURL:_URL];
