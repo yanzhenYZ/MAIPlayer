@@ -50,7 +50,7 @@
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBAIPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeSoftware];
+    _player = [[MSBAIPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeSoftware];
     [_player attachToView:self.view];
     
     __weak ViewController *weakSelf = self;
@@ -81,9 +81,9 @@
 //    };
     
     
-//    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
-//        [weakSelf displayVideo:pixelBuffer];
-//    };
+    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+        [weakSelf displayVideo:pixelBuffer];
+    };
     
     
 //    _player.yuvDataBlock = ^(int width, int height, NSData *data) {

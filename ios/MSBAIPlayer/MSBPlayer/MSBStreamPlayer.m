@@ -9,9 +9,9 @@
 #import "MSBStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
-#import "MSBAVScaleManager.h"
+#import "MSBAVMedia.h"
 
-@interface MSBStreamPlayer ()<MSBAVScaleManagerDelegate>
+@interface MSBStreamPlayer ()<MSBAVMediaDelegate>
 @property (nonatomic, assign) IJKMPMoviePlaybackState ijkStatus;
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
 @property (nonatomic, weak) UIView *view;
@@ -23,7 +23,7 @@
 @property (nonatomic, assign) int tStatus;
 @property (nonatomic, assign) BOOL shutDown;
 
-@property (nonatomic, strong) MSBAVScaleManager *manage;
+@property (nonatomic, strong) MSBAVMedia *avMedia;
 @end
 
 @implementation MSBStreamPlayer
@@ -289,10 +289,10 @@
 - (void)setYuvDataBlock:(void (^)(int, int, NSData *))yuvDataBlock {
     _yuvDataBlock = yuvDataBlock;
     if (yuvDataBlock) {
-        _manage = [[MSBAVScaleManager alloc] init];
-        _manage.delegate = self;
+        _avMedia = [[MSBAVMedia alloc] init];
+        _avMedia.delegate = self;
     } else {
-        _manage = nil;
+        _avMedia = nil;
     }
 }
 
@@ -362,7 +362,7 @@
 }
 
 #pragma mark - MSBAVScaleManagerDelegate
-- (void)manager:(MSBAVScaleManager *)manager videoData:(NSData *)data width:(int)width height:(int)height {
+-(void)media:(MSBAVMedia *)media videoData:(NSData *)data width:(int)width height:(int)height {
     if (_yuvDataBlock) {
         _yuvDataBlock(width, height, data);
     }
