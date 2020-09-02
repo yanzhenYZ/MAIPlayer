@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MSBAIPlaybackStatus) {
-    MSBAIPlaybackStatusBuffering,
-    MSBAIPlaybackStatusPlaying,
-    MSBAIPlaybackStatusSeeking,
-    MSBAIPlaybackStatusPaused,
-    MSBAIPlaybackStatusEnded,
+typedef NS_ENUM(NSInteger, MSBArtPlaybackStatus) {
+    MSBArtPlaybackStatusBuffering,
+    MSBArtPlaybackStatusPlaying,
+    MSBArtPlaybackStatusSeeking,
+    MSBArtPlaybackStatusPaused,
+    MSBArtPlaybackStatusEnded,
 };
-
 
 typedef NS_ENUM(NSInteger, MSBVideoDecoderMode) {
     //硬件解码同步
@@ -26,4 +25,13 @@ typedef NS_ENUM(NSInteger, MSBVideoDecoderMode) {
     MSBVideoDecoderModeDisplayLayer,
     //视频软件解码
     MSBVideoDecoderModeSoftware,
+};
+
+//just for AI
+typedef NS_ENUM(NSInteger, MSBAIPlaybackStatus) {
+    MSBAIPlaybackStatusBuffering,
+    MSBAIPlaybackStatusPlaying,
+    MSBAIPlaybackStatusSeeking,
+    MSBAIPlaybackStatusPaused,
+    MSBAIPlaybackStatusEnded,
 };

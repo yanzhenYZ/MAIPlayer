@@ -6,5 +6,6 @@
 //  Copyright © 2020 MSBAI. All rights reserved.
 //
 
+#import "MSBArtPlayer.h"
 #import "MSBAIPlayer.h"
 #import "MSBAIEnum.h"
