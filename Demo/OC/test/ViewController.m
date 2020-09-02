@@ -61,6 +61,7 @@
         }
     };
     
+    
     _player.playbackStatus = ^(MSBAIPlaybackStatus status) {
         NSLog(@"22 playbackStatus: %ld", (long)status);
     };

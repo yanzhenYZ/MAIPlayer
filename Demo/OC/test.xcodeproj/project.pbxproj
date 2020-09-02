@@ -29,6 +29,7 @@
 		9B38F35224EFA1A700D5E192 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F35124EFA1A700D5E192 /* libc++.tbd */; };
 		9B38F35424EFA1B500D5E192 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F35324EFA1B500D5E192 /* libz.tbd */; };
 		9B38F3F924EFBE7F00D5E192 /* libyuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B38F3E324EFBE7F00D5E192 /* libyuv.a */; };
+		9B3B7B0B24FFA79D002CD684 /* ArtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B7B0A24FFA79D002CD684 /* ArtViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,8 @@
 		9B38F3F624EFBE7F00D5E192 /* rotate_argb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rotate_argb.h; sourceTree = "<group>"; };
 		9B38F3F724EFBE7F00D5E192 /* macros_msa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros_msa.h; sourceTree = "<group>"; };
 		9B38F3F824EFBE7F00D5E192 /* row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = row.h; sourceTree = "<group>"; };
+		9B3B7B0924FFA79D002CD684 /* ArtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtViewController.h; sourceTree = "<group>"; };
+		9B3B7B0A24FFA79D002CD684 /* ArtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArtViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				9B38F31D24EF9CDB00D5E192 /* AppDelegate.m */,
 				9B38F32224EF9CDB00D5E192 /* ViewController.h */,
 				9B38F32324EF9CDB00D5E192 /* ViewController.m */,
+				9B3B7B0924FFA79D002CD684 /* ArtViewController.h */,
+				9B3B7B0A24FFA79D002CD684 /* ArtViewController.m */,
 				9B38F3E124EFBE7F00D5E192 /* libyuv */,
 				9B38F33524EF9D7000D5E192 /* mp4 */,
 				9B38F32524EF9CDB00D5E192 /* Main.storyboard */,
@@ -280,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3B7B0B24FFA79D002CD684 /* ArtViewController.m in Sources */,
 				9B38F32424EF9CDB00D5E192 /* ViewController.m in Sources */,
 				9B38F31E24EF9CDB00D5E192 /* AppDelegate.m in Sources */,
 				9B38F32F24EF9CDE00D5E192 /* main.m in Sources */,

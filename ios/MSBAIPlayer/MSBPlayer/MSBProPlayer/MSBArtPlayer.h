@@ -26,8 +26,9 @@
 //default is 1s
 @property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
-
+//not support for MSBVideoDecoderModeDisplayLayer
 @property (nonatomic, copy) void (^videoDataBlock)(CVPixelBufferRef pixelBuffer);
+//not support for MSBVideoDecoderModeDisplayLayer
 @property (nonatomic, copy) void (^audioDataBlock)(int sampleRate, int channels, void *data, int size);
 @property (nonatomic, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 

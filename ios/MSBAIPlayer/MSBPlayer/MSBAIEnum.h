@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, MSBArtPlaybackStatus) {
+    /** init后的初始状态 */
+    MSBArtPlaybackStatusUnknow,
+    MSBArtPlaybackStatusPreparing,
+    MSBArtPlaybackStatusReady,
     MSBArtPlaybackStatusBuffering,
     MSBArtPlaybackStatusPlaying,
-    MSBArtPlaybackStatusSeeking,
     MSBArtPlaybackStatusPaused,
+    MSBArtPlaybackStatusSeeking,
     MSBArtPlaybackStatusEnded,
+    MSBArtPlaybackStatusError,
 };
 
 typedef NS_ENUM(NSInteger, MSBVideoDecoderMode) {

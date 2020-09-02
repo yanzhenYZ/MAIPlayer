@@ -98,6 +98,8 @@
 #pragma mark - funcs
 
 - (void)play {
+    //init if set is NO, must play this 
+    _player.shouldAutoplay = YES;
     [_player play];
 }
 
