@@ -24,6 +24,7 @@
 @property (nonatomic, assign) BOOL shutDown;
 
 @property (nonatomic, strong) MSBAVMedia *avMedia;
+@property (nonatomic, assign) MSBVideoDecoderMode mode;
 @end
 
 @implementation MSBStreamPlayer
@@ -51,7 +52,7 @@
         _videoGravity = AVLayerVideoGravityResizeAspect;
         _playbackTimeInterval = 1.0f;
         IJKFFOptions *ffOptions = [IJKFFOptions optionsByDefault];
-        
+        _mode = mode;
         switch (mode) {
             case MSBVideoDecoderModeToolBoxSync:
                 [ffOptions setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
@@ -269,16 +270,25 @@
 
 - (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
     _videoDataBlock = videoDataBlock;
-    if (videoDataBlock) {
-        __weak MSBStreamPlayer *weakSelf = self;
-        MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
-            __strong MSBStreamPlayer *strongSelf = weakSelf;
-            if (strongSelf.videoDataBlock) {
-                strongSelf.videoDataBlock(pixelBuffer);
-            }
-        };
+    if (_mode == MSBVideoDecoderModeSoftware) {
+        if (videoDataBlock) {
+            _avMedia = [[MSBAVMedia alloc] init];
+            _avMedia.delegate = self;
+        } else {
+            _avMedia = nil;
+        }
     } else {
-        MSBIJKAVManager.manager.videoDataBlock = nil;
+        if (videoDataBlock) {
+            __weak MSBStreamPlayer *weakSelf = self;
+            MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+                __strong MSBStreamPlayer *strongSelf = weakSelf;
+                if (strongSelf.videoDataBlock) {
+                    strongSelf.videoDataBlock(pixelBuffer);
+                }
+            };
+        } else {
+            MSBIJKAVManager.manager.videoDataBlock = nil;
+        }
     }
 }
 
@@ -365,6 +375,12 @@
 -(void)media:(MSBAVMedia *)media videoData:(NSData *)data width:(int)width height:(int)height {
     if (_yuvDataBlock) {
         _yuvDataBlock(width, height, data);
+    }
+}
+
+- (void)media:(MSBAVMedia *)media buffer:(CVPixelBufferRef)pixelBuffer {
+    if (_videoDataBlock) {
+        _videoDataBlock(pixelBuffer);
     }
 }
 @end

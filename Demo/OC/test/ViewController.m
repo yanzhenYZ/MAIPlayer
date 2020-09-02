@@ -45,12 +45,12 @@
 }
 
 - (void)playVideo {
-    NSString *path = [NSBundle.mainBundle pathForResource:@"1" ofType:@"mp4"];
+    NSString *path = [NSBundle.mainBundle pathForResource:@"3" ofType:@"mp4"];
     NSURL *pathUrl = [NSURL fileURLWithPath:path];
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBAIPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeSoftware];
+    _player = [[MSBAIPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeToolBoxSync];
     [_player attachToView:self.view];
     
     __weak ViewController *weakSelf = self;
