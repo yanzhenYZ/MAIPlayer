@@ -197,6 +197,7 @@
 		9B3B7B0024FF8DB2002CD684 /* MSBArtStreamPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7AFE24FF8DB2002CD684 /* MSBArtStreamPlayer.h */; };
 		9B3B7B0124FF8DB2002CD684 /* MSBArtStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B7AFF24FF8DB2002CD684 /* MSBArtStreamPlayer.m */; };
 		9B3B7B0424FF8DE2002CD684 /* MSBArtPlayerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B0224FF8DE2002CD684 /* MSBArtPlayerProtocol.h */; };
+		9B3B7B122500CD06002CD684 /* MSBArtPlayerGeneralDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B102500CD06002CD684 /* MSBArtPlayerGeneralDelegate.h */; };
 		9B44CB8324A9F281009F48DB /* MSBPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CB8124A9F281009F48DB /* MSBPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9B44CB8724A9F2B0009F48DB /* MSBAIPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CB8524A9F2B0009F48DB /* MSBAIPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9B44CB8824A9F2B0009F48DB /* MSBAIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CB8624A9F2B0009F48DB /* MSBAIPlayer.m */; };
@@ -397,6 +398,7 @@
 		9B3B7AFE24FF8DB2002CD684 /* MSBArtStreamPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBArtStreamPlayer.h; sourceTree = "<group>"; };
 		9B3B7AFF24FF8DB2002CD684 /* MSBArtStreamPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBArtStreamPlayer.m; sourceTree = "<group>"; };
 		9B3B7B0224FF8DE2002CD684 /* MSBArtPlayerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBArtPlayerProtocol.h; sourceTree = "<group>"; };
+		9B3B7B102500CD06002CD684 /* MSBArtPlayerGeneralDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBArtPlayerGeneralDelegate.h; sourceTree = "<group>"; };
 		9B44CB8124A9F281009F48DB /* MSBPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBPlayer.h; sourceTree = "<group>"; };
 		9B44CB8524A9F2B0009F48DB /* MSBAIPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBAIPlayer.h; sourceTree = "<group>"; };
 		9B44CB8624A9F2B0009F48DB /* MSBAIPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSBAIPlayer.m; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				9B3B7AFE24FF8DB2002CD684 /* MSBArtStreamPlayer.h */,
 				9B3B7AFF24FF8DB2002CD684 /* MSBArtStreamPlayer.m */,
 				9B3B7B0224FF8DE2002CD684 /* MSBArtPlayerProtocol.h */,
+				9B3B7B102500CD06002CD684 /* MSBArtPlayerGeneralDelegate.h */,
 			);
 			path = MSBProPlayer;
 			sourceTree = "<group>";
@@ -895,6 +898,7 @@
 				48BD5CD6246A97F200AA73C0 /* ff_fferror.h in Headers */,
 				48BD5C82246A94C000AA73C0 /* IJKMediaUtils.h in Headers */,
 				48BD5C84246A94C000AA73C0 /* IJKNotificationManager.h in Headers */,
+				9B3B7B122500CD06002CD684 /* MSBArtPlayerGeneralDelegate.h in Headers */,
 				48BD5DBC246A997F00AA73C0 /* ijksdl_image_convert.h in Headers */,
 				48BD5D26246A985400AA73C0 /* ijkdict.h in Headers */,
 				48BD5DDE246A998000AA73C0 /* ijksdl_inc_internal.h in Headers */,

@@ -16,10 +16,13 @@
 @end
 
 @implementation MSBArtApplePlayer
+@synthesize delegate = _delegate;
 @synthesize videoGravity = _videoGravity;
 @synthesize playbackStatus = _playbackStatus;
 @synthesize audioDataBlock = _audioDataBlock;
 @synthesize videoDataBlock = _videoDataBlock;
+@synthesize loadedTime = _loadedTime;
+@synthesize playbackTime = _playbackTime;
 
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];
@@ -29,36 +32,50 @@
     if (self = [super init]) {
         _videoGravity = AVLayerVideoGravityResizeAspect;
         _player = [[IJKAVMoviePlayerController alloc] initWithContentURL:url];
-        __weak MSBArtApplePlayer *weakSelf = self;
-        _player.playerStatus = ^(AVPlayerStatus status, NSError *error) {
-            __strong MSBArtApplePlayer *strongSelf = weakSelf;
-            if (status == AVPlayerStatusReadyToPlay) {
-                if (strongSelf.playbackStatus) {
-                    strongSelf.playbackStatus(MSBArtPlaybackStatusReady, nil);
-                }
-            }
-        };
+        [self setupEvents];
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _videoStatus = MSBArtPlaybackStatusUnknow;
         _ijkStatus = IJKMPMoviePlaybackStatePaused;//AVPlayer默认状态暂停
         _player.scalingMode = IJKMPMovieScalingModeAspectFit;
         _player.shouldAutoplay = NO;
-        [self addObserver];
         [_player prepareToPlay];
     }
     return self;
 }
 
-- (void)addObserver {
+- (void)setupEvents {
+    __weak MSBArtApplePlayer *weakSelf = self;
+    _player.playerStatus = ^(AVPlayerStatus status, NSError *error) {
+        __strong MSBArtApplePlayer *strongSelf = weakSelf;
+        if (status == AVPlayerStatusReadyToPlay) {
+            strongSelf.videoStatus = MSBArtPlaybackStatusReady;
+            [strongSelf callBackPlaybackStatusError:nil];
+        }
+    };
+    
+    _player.loadedTime = ^(NSTimeInterval time, NSTimeInterval duration) {
+        __strong MSBArtApplePlayer *strongSelf = weakSelf;
+        if (strongSelf.loadedTime) {
+            strongSelf.loadedTime(time, duration);
+        }
+        if ([strongSelf.delegate respondsToSelector:@selector(playerLoadedTime:duration:)]) {
+            [strongSelf.delegate playerLoadedTime:time duration:duration];
+        }
+    };
+    
+    _player.playbackTime = ^(NSTimeInterval time, NSTimeInterval duration) {
+        __strong MSBArtApplePlayer *strongSelf = weakSelf;
+        if (strongSelf.playbackTime) {
+            strongSelf.playbackTime(time, duration);
+        }
+        if ([strongSelf.delegate respondsToSelector:@selector(playerPlaybackTime:duration:)]) {
+            [strongSelf.delegate playerPlaybackTime:time duration:duration];
+        }
+    };
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerPlaybackStateDidChange:) name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerPlaybackDidFinish:) name:IJKMPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
-/*
- IJKMPMoviePlaybackStateStopped
- IJKMPMoviePlaybackStateSeekingForward
- IJKMPMoviePlaybackStatePlaying
- IJKMPMoviePlaybackStatePaused
- */
+
 - (void)playerPlaybackStateDidChange:(NSNotification *)note {
     if (note.object != self.player) { return; }
     if (_ijkStatus == _player.playbackState) { return; }
@@ -83,10 +100,17 @@
         default:
             break;
     }
-    if (_playbackStatus) {
-        _playbackStatus(_videoStatus, nil);
-    }
+    [self callBackPlaybackStatusError:nil];
     
+}
+
+- (void)callBackPlaybackStatusError:(NSError *)error {
+    if (_playbackStatus) {
+        _playbackStatus(_videoStatus, error);
+    }
+    if ([_delegate respondsToSelector:@selector(playerStatusDidChange:error:)]) {
+        [_delegate playerStatusDidChange:_videoStatus error:error];
+    }
 }
 
 - (void)playerPlaybackDidFinish:(NSNotification *)note {
@@ -100,9 +124,7 @@
     } else if (reason == IJKMPMovieFinishReasonPlaybackError) {
         NSError *error = note.userInfo[@"error"];
         _videoStatus = MSBArtPlaybackStatusError;
-        if (_playbackStatus) {
-            _playbackStatus(_videoStatus, error);
-        }
+        [self callBackPlaybackStatusError:error];
     }
 }
 #pragma mark - funcs
@@ -150,27 +172,19 @@
 }
 
 -(void)setPlaybackTime:(void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
-    _player.playbackTime = playbackTime;
+    _playbackTime = playbackTime;
 }
 
 - (void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
-    return _player.playbackTime;
+    return _playbackTime;
 }
 
 - (void)setLoadedTime:(void (^)(NSTimeInterval, NSTimeInterval))loadedTime {
-    _player.loadedTime = loadedTime;
+    _loadedTime = loadedTime;
 }
 
 - (void (^)(NSTimeInterval, NSTimeInterval))loadedTime {
-    return _player.loadedTime;
-}
-
-- (void)setPlayerStatus:(void (^)(AVPlayerStatus, NSError *))playerStatus {
-    _player.playerStatus = playerStatus;
-}
-
-- (void (^)(AVPlayerStatus, NSError *))playerStatus {
-    return _player.playerStatus;
+    return _loadedTime;
 }
 
 -(void)setPlaybackStatus:(void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
@@ -195,6 +209,14 @@
 
 - (void (^)(CVPixelBufferRef))videoDataBlock {
     return _videoDataBlock;
+}
+
+- (void)setDelegate:(id<MSBArtPlayerGeneralDelegate>)delegate {
+    _delegate = delegate;
+}
+
+- (id<MSBArtPlayerGeneralDelegate>)delegate {
+    return _delegate;
 }
 
 #pragma mark - property readOnly

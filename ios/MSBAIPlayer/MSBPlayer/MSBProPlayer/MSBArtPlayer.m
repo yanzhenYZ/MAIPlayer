@@ -10,7 +10,7 @@
 #import "MSBArtApplePlayer.h"
 #import "MSBArtStreamPlayer.h"
 
-@interface MSBArtPlayer ()
+@interface MSBArtPlayer ()<MSBArtPlayerGeneralDelegate>
 @property (nonatomic, strong) id<MSBArtPlayerProtocol> player;
 @end
 
@@ -67,6 +67,15 @@
     [_player seekToTime:time];
 }
 #pragma mark - property
+- (void)setDelegate:(id<MSBArtPlayerDelegate>)delegate {
+    _delegate = delegate;
+    if (_delegate) {
+        _player.delegate = self;
+    } else {
+        _player.delegate = nil;
+    }
+}
+
 - (void)setPlaybackTimeInterval:(NSTimeInterval)playbackTimeInterval {
     _player.playbackTimeInterval = playbackTimeInterval;
 }
@@ -149,5 +158,36 @@
  */
 + (NSString *)getVersion {
     return @"1.0.0";
+}
+
+#pragma mark - MSBArtPlayerGeneralDelegate
+- (void)playerStatusDidChange:(MSBArtPlaybackStatus)status error:(NSError *)error {
+    if ([_delegate respondsToSelector:@selector(player:statusDidChange:error:)]) {
+        [_delegate player:self statusDidChange:status error:error];
+    }
+}
+
+- (void)playerLoadedTime:(NSTimeInterval)time duration:(NSTimeInterval)duration {
+    if ([_delegate respondsToSelector:@selector(player:loadedTime:duration:)]) {
+        [_delegate player:self loadedTime:time duration:duration];
+    }
+}
+
+- (void)playerPlaybackTime:(NSTimeInterval)time duration:(NSTimeInterval)duration {
+    if ([_delegate respondsToSelector:@selector(player:playbackTime:duration:)]) {
+        [_delegate player:self playbackTime:time duration:duration];
+    }
+}
+
+- (void)playerVideoData:(CVPixelBufferRef)pixelBuffer {
+    if ([_delegate respondsToSelector:@selector(player:videoData:)]) {
+        [_delegate player:self videoData:pixelBuffer];
+    }
+}
+
+- (void)playerAudioData:(void *)data size:(int)size sampleRate:(int)sampleRate channels:(int)channels {
+    if ([_delegate respondsToSelector:@selector(player:audioData:size:sampleRate:channels:)]) {
+        [_delegate player:self audioData:data size:size sampleRate:sampleRate channels:channels];
+    }
 }
 @end

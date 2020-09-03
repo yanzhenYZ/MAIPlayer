@@ -17,6 +17,7 @@
 @end
 
 @implementation MSBArtStreamPlayer
+@synthesize delegate = _delegate;
 @synthesize loadedTime = _loadedTime;
 @synthesize playbackTime = _playbackTime;
 @synthesize videoGravity = _videoGravity;
@@ -174,6 +175,13 @@
     return _playbackTime;
 }
 
+- (void)setDelegate:(id<MSBArtPlayerGeneralDelegate>)delegate {
+    _delegate = delegate;
+}
+
+- (id<MSBArtPlayerGeneralDelegate>)delegate {
+    return _delegate;
+}
 #pragma mark - property readOnly
 - (UIView *)playerView {
     return _player.view;
@@ -192,7 +200,7 @@
 }
 
 - (MSBArtPlaybackStatus)status {
-    return MSBArtPlaybackStatusBuffering;
+    return _videoStatus;
 }
 
 
