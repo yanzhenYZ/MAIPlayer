@@ -9,19 +9,20 @@
 #import "MSBArtStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
+#import "MSBAVMedia.h"
 /**
- 1. 状态
- 2. audio
- 3. video
  4. timer
  */
-@interface MSBArtStreamPlayer ()
+@interface MSBArtStreamPlayer ()<MSBAVMediaDelegate>
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
 @property (nonatomic, assign) MSBVideoDecoderMode mode;
 @property (nonatomic, assign) MSBArtPlaybackStatus videoStatus;
 @property (nonatomic, assign) BOOL readPlay;//如果多线程，需要加锁
 @property (nonatomic, assign) BOOL shutDown;
 @property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, assign) int tStatus;
+@property (nonatomic, strong) MSBAVMedia *avMedia;
 @end
 
 @implementation MSBArtStreamPlayer
@@ -56,8 +57,7 @@
         
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:url withOptions:ffOptions];
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _videoStatus = MSBArtPlaybackStatusBuffering;
-//        _ijkStatus = IJKMPMoviePlaybackStatePaused;
+        _videoStatus = MSBArtPlaybackStatusUnknow;
         _player.scalingMode = IJKMPMovieScalingModeAspectFit;
         [self addObserver];
         self.playbackTimeInterval = 1.0f;
@@ -73,16 +73,42 @@
 }
 
 - (void)playerStatusDidChange:(NSNotification *)notification {
-    
+    if (notification.object != self.player) { return; }
+    int status = [[[notification userInfo] valueForKey:@"PlayerStatus"] intValue];
+    _tStatus = status;
+    MSBArtPlaybackStatus oldStatus = _videoStatus;
+    if (_tStatus == 2) {
+        [self startTimer];
+        _videoStatus = MSBArtPlaybackStatusReady;
+    } else if (_tStatus == 3) {
+        _videoStatus = MSBArtPlaybackStatusBuffering;
+    } else if (_tStatus == 4) {
+        _videoStatus = MSBArtPlaybackStatusPlaying;
+    } else if (_tStatus == 5) {
+        _videoStatus = MSBArtPlaybackStatusPaused;
+    } else if (_tStatus == 6) {
+        _videoStatus = MSBArtPlaybackStatusEnded;
+    } else {
+        return;
+    }
+    if (_videoStatus == oldStatus) { return; }
+    [self callBackPlaybackStatusError:nil];
 }
 
 - (void)playerStoppedWithError:(NSNotification *)notification {
     if (notification.object != self.player) { return; }
-//    if (_playerStatus) {
-//        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
-//        NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:100 userInfo:userInfo];
-//        _playerStatus(AVPlayerStatusFailed, error);
-//    }
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
+    NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:-1000 userInfo:userInfo];
+    [self callBackPlaybackStatusError:error];
+}
+
+- (void)callBackPlaybackStatusError:(NSError *)error {
+    if (_playbackStatus) {
+        _playbackStatus(_videoStatus, error);
+    }
+    if ([_delegate respondsToSelector:@selector(playerStatusDidChange:error:)]) {
+        [_delegate playerStatusDidChange:_videoStatus error:error];
+    }
 }
 
 #pragma mark - timer
@@ -171,6 +197,26 @@
 
 - (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
     _videoDataBlock = videoDataBlock;
+    if (_mode == MSBVideoDecoderModeSoftware) {
+        if (videoDataBlock) {
+            _avMedia = [[MSBAVMedia alloc] init];
+            _avMedia.delegate = self;
+        } else {
+            _avMedia = nil;
+        }
+    } else {
+        if (videoDataBlock) {
+            __weak MSBArtStreamPlayer *weakSelf = self;
+            MSBIJKAVManager.manager.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+                __strong MSBArtStreamPlayer *strongSelf = weakSelf;
+                if (strongSelf.videoDataBlock) {
+                    strongSelf.videoDataBlock(pixelBuffer);
+                }
+            };
+        } else {
+            MSBIJKAVManager.manager.videoDataBlock = nil;
+        }
+    }
 }
 
 - (void (^)(CVPixelBufferRef))videoDataBlock {
@@ -187,6 +233,17 @@
 
 - (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
     _audioDataBlock = audioDataBlock;
+    if (_audioDataBlock) {
+        __weak MSBArtStreamPlayer *weakSelf = self;
+        MSBIJKAVManager.manager.audioDataBlock = ^(int sampleRate, int channels, void *data, int size) {
+            __strong MSBArtStreamPlayer *strongSelf = weakSelf;
+            if (strongSelf.audioDataBlock) {
+                strongSelf.audioDataBlock(sampleRate, channels, data, size);
+            }
+        };
+    } else {
+        MSBIJKAVManager.manager.audioDataBlock = nil;
+    }
 }
 
 - (void (^)(int, int, void *, int))audioDataBlock {
@@ -235,5 +292,18 @@
 
 - (MSBArtPlaybackStatus)status {
     return _videoStatus;
+}
+
+#pragma mark - MSBAVMediaDelegate
+//-(void)media:(MSBAVMedia *)media videoData:(NSData *)data width:(int)width height:(int)height {
+//    if (_yuvDataBlock) {
+//        _yuvDataBlock(width, height, data);
+//    }
+//}
+
+- (void)media:(MSBAVMedia *)media buffer:(CVPixelBufferRef)pixelBuffer {
+    if (_videoDataBlock) {
+        _videoDataBlock(pixelBuffer);
+    }
 }
 @end

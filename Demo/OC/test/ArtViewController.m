@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UIImageView *smallPlayer;
 @property (nonatomic, strong) MSBArtPlayer *player;
+@property (nonatomic, strong) CIContext *context;
 @end
 
 @implementation ArtViewController
@@ -43,7 +44,7 @@
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBArtPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeToolBoxSync];
+    _player = [[MSBArtPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeToolBoxSync];
     _player.delegate = self;
     _player.playerView.frame = self.view.bounds;
     [self.view insertSubview:_player.playerView atIndex:0];
@@ -70,9 +71,9 @@
 //    };
     
     
-//    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
-//        [weakSelf displayVideo:pixelBuffer];
-//    };
+    _player.videoDataBlock = ^(CVPixelBufferRef pixelBuffer) {
+        [weakSelf displayVideo:pixelBuffer];
+    };
     
     
 //    _player.yuvDataBlock = ^(int width, int height, NSData *data) {
@@ -83,7 +84,31 @@
     
 }
 
+- (void)displayVideo:(CVPixelBufferRef)pixelBuffer {
+    CIImage *ciImage = [CIImage imageWithCVImageBuffer:pixelBuffer];
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+    
+    CGImageRef imageRef = [self.context createCGImage:ciImage fromRect:CGRectMake(0, 0, width, height)];
+    if (!imageRef) {
+        NSLog(@"Create Image fail with CVPixelBufferRef");
+        return;
+    }
+    
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.smallPlayer.image = image;
+    });
+    
+}
 
+-(CIContext *)context {
+    if (!_context) {
+        _context = [CIContext contextWithOptions:nil];
+    }
+    return _context;
+}
 #pragma mark - MSBArtPlayerDelegate
 -(void)player:(MSBArtPlayer *)player statusDidChange:(MSBArtPlaybackStatus)status error:(NSError *)error {
     NSLog(@"-------statusDidChange:%d:%@", status, error);

@@ -11,16 +11,13 @@
 typedef NS_ENUM(NSInteger, MSBArtPlaybackStatus) {
     /** init后的初始状态 */
     MSBArtPlaybackStatusUnknow,
-    MSBArtPlaybackStatusReady,//??
-    //not
+    MSBArtPlaybackStatusReady,
     MSBArtPlaybackStatusBuffering,
     MSBArtPlaybackStatusPlaying,
     MSBArtPlaybackStatusPaused,
-    //not
-    MSBArtPlaybackStatusInterrupted,
     MSBArtPlaybackStatusSeeking,
     MSBArtPlaybackStatusEnded,
-    MSBArtPlaybackStatusError,//??
+    MSBArtPlaybackStatusError,
 };
 
 typedef NS_ENUM(NSInteger, MSBVideoDecoderMode) {

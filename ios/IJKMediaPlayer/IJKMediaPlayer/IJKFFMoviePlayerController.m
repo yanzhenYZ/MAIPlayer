@@ -40,48 +40,14 @@ static const char *kIJKFFRequiredFFmpegVersion = "ff3.4--ijk0.8.7--20180103--001
 NSString *const PlayerStatusDidChangeNotification  = @"PlayerStatusDidChangeNotification";
 NSString *const PlayerStoppedWithErrorNotification = @"PlayerStoppedWithErrorNotification";
 
-//create by doubo 
 typedef NS_ENUM(NSInteger, PlayerStatus) {
-    /**
-     未知状态，只会作为 init 后的初始状态，开始播放之后任何情况下都不会再回到此状态。
-     */
     PlayerStatusUnknow = 0,
-    
-    /**
-     正在准备播放所需组件，在调用 play 方法时出现。
-     */
     PlayerStatusPreparing,
-    
-    /**
-     播放组件准备完成，准备开始播放，在调用 play 方法时出现。
-     */
     PlayerStatusReady,
-    
-    /**
-     Player 缓存数据为空状态
-     */
     PlayerStatusCaching,
-    
-    /**
-     正在播放状态
-     */
     PlayerStatusPlaying,
-    
-    /**
-     暂停状态
-     */
     PlayerStatusPaused,
-    
-    /**
-     停止状态
-     该状态仅会在回放时播放结束出现，RTMP 直播结束并不会出现此状态
-     */
-    PlayerStatusStopped,
-    
-    /**
-     错误状态，播放出现错误时会出现此状态。
-     */
-    PlayerStatusError
+    PlayerStatusStopped
 };
 //end
 

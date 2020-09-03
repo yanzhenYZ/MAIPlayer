@@ -90,9 +90,6 @@
         case IJKMPMoviePlaybackStatePaused:
             _videoStatus = MSBArtPlaybackStatusPaused;
             break;
-        case IJKMPMoviePlaybackStateInterrupted:
-            _videoStatus = MSBArtPlaybackStatusInterrupted;
-            break;
         case IJKMPMoviePlaybackStateSeekingForward:
         case IJKMPMoviePlaybackStateSeekingBackward:
             _videoStatus = MSBArtPlaybackStatusSeeking;
