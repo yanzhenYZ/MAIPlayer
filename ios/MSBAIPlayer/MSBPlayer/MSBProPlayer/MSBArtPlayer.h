@@ -10,8 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "MSBAIEnum.h"
 /**
- 软件播放
- 
  模拟器支持
  */
 
@@ -24,9 +22,9 @@
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
 @property (nonatomic, readonly) UIImage *currentImage;
-
 @property (nonatomic, readonly) MSBArtPlaybackStatus status;
-//default is 1s
+
+//default is 1s, just set once
 @property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 //not support for MSBVideoDecoderModeDisplayLayer

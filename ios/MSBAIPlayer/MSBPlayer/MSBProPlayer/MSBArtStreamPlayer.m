@@ -9,11 +9,19 @@
 #import "MSBArtStreamPlayer.h"
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
-
+/**
+ 1. 状态
+ 2. audio
+ 3. video
+ 4. timer
+ */
 @interface MSBArtStreamPlayer ()
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
 @property (nonatomic, assign) MSBVideoDecoderMode mode;
 @property (nonatomic, assign) MSBArtPlaybackStatus videoStatus;
+@property (nonatomic, assign) BOOL readPlay;//如果多线程，需要加锁
+@property (nonatomic, assign) BOOL shutDown;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation MSBArtStreamPlayer
@@ -30,7 +38,6 @@
     self = [super init];
     if (self) {
         _videoGravity = AVLayerVideoGravityResizeAspect;
-        _playbackTimeInterval = 1.0f;
         IJKFFOptions *ffOptions = [IJKFFOptions optionsByDefault];
         _mode = mode;
         switch (mode) {
@@ -52,9 +59,8 @@
         _videoStatus = MSBArtPlaybackStatusBuffering;
 //        _ijkStatus = IJKMPMoviePlaybackStatePaused;
         _player.scalingMode = IJKMPMovieScalingModeAspectFit;
-        _player.shouldAutoplay = NO;
         [self addObserver];
-        [_player prepareToPlay];
+        self.playbackTimeInterval = 1.0f;
     }
     return self;
 }
@@ -64,12 +70,6 @@
                                                  name:PlayerStatusDidChangeNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStoppedWithError:)
                                                  name:PlayerStoppedWithErrorNotification object:_player];
-//    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerVideoDecoderOpen:) name:IJKMPMoviePlayerVideoDecoderOpenNotification object:_player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(playerVideoFrameRenderedStart:) name:IJKMPMoviePlayerFirstVideoFrameRenderedNotification object:_player];
-}
-
-- (void)startTimer {
-    
 }
 
 - (void)playerStatusDidChange:(NSNotification *)notification {
@@ -77,9 +77,7 @@
 }
 
 - (void)playerStoppedWithError:(NSNotification *)notification {
-    if (notification.object != self.player) {
-        return;
-    }
+    if (notification.object != self.player) { return; }
 //    if (_playerStatus) {
 //        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
 //        NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:100 userInfo:userInfo];
@@ -87,9 +85,41 @@
 //    }
 }
 
+#pragma mark - timer
+- (void)startTimer {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:_playbackTimeInterval target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    [NSRunLoop.currentRunLoop addTimer:_timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopTimer {
+    [_timer invalidate];
+    _timer = nil;
+}
+
+- (void)timerAction {
+    NSTimeInterval duration = _player.duration;
+    if (_playbackTime) {
+        _playbackTime(_player.currentPlaybackTime, duration);
+    }
+    if ([_delegate respondsToSelector:@selector(playerPlaybackTime:duration:)]) {
+        [_delegate playerPlaybackTime:_player.currentPlaybackTime duration:duration];
+    }
+    
+    if (_loadedTime) {
+        _loadedTime(_player.playableDuration, duration);
+    }
+    if ([_delegate respondsToSelector:@selector(playerLoadedTime:duration:)]) {
+        [_delegate playerLoadedTime:_player.playableDuration duration:duration];
+    }
+}
 #pragma mark - method
 - (void)play {
-    [_player play];
+    if (_readPlay) {
+        [_player play];
+    } else {
+        _readPlay = YES;
+        [_player prepareToPlay];
+    }
 }
 
 - (void)pause {
@@ -101,7 +131,11 @@
 }
 
 - (void)stop {
-    [_player stop];
+    if (!_shutDown) {
+        _shutDown = YES;
+        [self stopTimer];
+        [_player shutdown];
+    }
 }
 
 - (void)seekToTime:(NSTimeInterval)time {
@@ -202,6 +236,4 @@
 - (MSBArtPlaybackStatus)status {
     return _videoStatus;
 }
-
-
 @end

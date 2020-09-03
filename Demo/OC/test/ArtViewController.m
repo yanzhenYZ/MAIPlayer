@@ -43,7 +43,7 @@
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBArtPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeDisplayLayer];
+    _player = [[MSBArtPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeToolBoxSync];
     _player.delegate = self;
     _player.playerView.frame = self.view.bounds;
     [self.view insertSubview:_player.playerView atIndex:0];
@@ -61,7 +61,7 @@
     };
     
     _player.loadedTime = ^(NSTimeInterval time, NSTimeInterval duration) {
-//        NSLog(@"44 loadedTime: %f/%f", time, duration);
+        NSLog(@"44 loadedTime: %f/%f", time, duration);
     };
     
     
