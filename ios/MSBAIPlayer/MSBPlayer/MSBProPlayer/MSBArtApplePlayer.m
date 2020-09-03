@@ -29,9 +29,18 @@
     if (self = [super init]) {
         _videoGravity = AVLayerVideoGravityResizeAspect;
         _player = [[IJKAVMoviePlayerController alloc] initWithContentURL:url];
+        __weak MSBArtApplePlayer *weakSelf = self;
+        _player.playerStatus = ^(AVPlayerStatus status, NSError *error) {
+            __strong MSBArtApplePlayer *strongSelf = weakSelf;
+            if (status == AVPlayerStatusReadyToPlay) {
+                if (strongSelf.playbackStatus) {
+                    strongSelf.playbackStatus(MSBArtPlaybackStatusReady, nil);
+                }
+            }
+        };
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _videoStatus = MSBArtPlaybackStatusBuffering;
-        _ijkStatus = IJKMPMoviePlaybackStatePaused;
+        _videoStatus = MSBArtPlaybackStatusUnknow;
+        _ijkStatus = IJKMPMoviePlaybackStatePaused;//AVPlayer默认状态暂停
         _player.scalingMode = IJKMPMovieScalingModeAspectFit;
         _player.shouldAutoplay = NO;
         [self addObserver];
@@ -44,56 +53,57 @@
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerPlaybackStateDidChange:) name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerPlaybackDidFinish:) name:IJKMPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
-
+/*
+ IJKMPMoviePlaybackStateStopped
+ IJKMPMoviePlaybackStateSeekingForward
+ IJKMPMoviePlaybackStatePlaying
+ IJKMPMoviePlaybackStatePaused
+ */
 - (void)playerPlaybackStateDidChange:(NSNotification *)note {
     if (note.object != self.player) { return; }
-    if (_ijkStatus == _player.playbackState) {
-        return;
+    if (_ijkStatus == _player.playbackState) { return; }
+    _ijkStatus = _player.playbackState;
+    switch (_ijkStatus) {
+        case IJKMPMoviePlaybackStateStopped:
+            _videoStatus = MSBArtPlaybackStatusEnded;
+            break;
+        case IJKMPMoviePlaybackStatePlaying:
+            _videoStatus = MSBArtPlaybackStatusPlaying;
+            break;
+        case IJKMPMoviePlaybackStatePaused:
+            _videoStatus = MSBArtPlaybackStatusPaused;
+            break;
+        case IJKMPMoviePlaybackStateInterrupted:
+            _videoStatus = MSBArtPlaybackStatusInterrupted;
+            break;
+        case IJKMPMoviePlaybackStateSeekingForward:
+        case IJKMPMoviePlaybackStateSeekingBackward:
+            _videoStatus = MSBArtPlaybackStatusSeeking;
+            break;
+        default:
+            break;
     }
-//    _ijkStatus = _player.playbackState;
-//
-//    MSBAIPlaybackStatus oldStatus = _videoStatus;
-//    switch (_ijkStatus) {
-//        case IJKMPMoviePlaybackStateStopped:
-//
-//            break;
-//        case IJKMPMoviePlaybackStatePlaying:
-//            _videoStatus = MSBAIPlaybackStatusPlaying;
-//            break;
-//        case IJKMPMoviePlaybackStatePaused:
-//            _videoStatus = MSBAIPlaybackStatusPaused;
-//            break;
-//        case IJKMPMoviePlaybackStateInterrupted:
-//
-//            break;
-//        case IJKMPMoviePlaybackStateSeekingForward:
-//        case IJKMPMoviePlaybackStateSeekingBackward:
-//            _videoStatus = MSBAIPlaybackStatusSeeking;
-//            break;
-//        default:
-//            break;
-//    }
-//    if (_videoStatus != oldStatus) {
-//        if (_playbackStatus) {
-//            _playbackStatus(_videoStatus);
-//        }
-//    }
+    if (_playbackStatus) {
+        _playbackStatus(_videoStatus, nil);
+    }
+    
 }
 
 - (void)playerPlaybackDidFinish:(NSNotification *)note {
     if (note.object != self.player) { return; }
-//    int reason = [note.userInfo[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
-//    if (reason == IJKMPMovieFinishReasonPlaybackEnded) {
-//        _videoStatus = MSBAIPlaybackStatusEnded;
-//        if (_playbackStatus) {
-//            _playbackStatus(_videoStatus);
-//        }
-//    }
-//    else if (reason == IJKMPMovieFinishReasonPlaybackError) {
-//        if ([_delegate respondsToSelector:@selector(player:stoppedWithError:)]) {
-//            [_delegate player:self stoppedWithError:note.userInfo[@"error"]];
-//        }
-//    }
+    int reason = [note.userInfo[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
+    if (reason == IJKMPMovieFinishReasonPlaybackEnded && _videoStatus != MSBArtPlaybackStatusEnded) {
+        _videoStatus = MSBArtPlaybackStatusEnded;
+        if (_playbackStatus) {
+            _playbackStatus(_videoStatus, nil);
+        }
+    } else if (reason == IJKMPMovieFinishReasonPlaybackError) {
+        NSError *error = note.userInfo[@"error"];
+        _videoStatus = MSBArtPlaybackStatusError;
+        if (_playbackStatus) {
+            _playbackStatus(_videoStatus, error);
+        }
+    }
 }
 #pragma mark - funcs
 
@@ -161,6 +171,14 @@
 
 - (void (^)(AVPlayerStatus, NSError *))playerStatus {
     return _player.playerStatus;
+}
+
+-(void)setPlaybackStatus:(void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    _playbackStatus = playbackStatus;
+}
+
+- (void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    return _playbackStatus;
 }
 
 - (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {

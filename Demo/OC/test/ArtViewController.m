@@ -41,17 +41,16 @@
     NSString *path = [NSBundle.mainBundle pathForResource:@"3" ofType:@"mp4"];
     NSURL *pathUrl = [NSURL fileURLWithPath:path];
     
-    NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
+    NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke1.mp4"];
     
-    _player = [[MSBArtPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeDisplayLayer];
+    _player = [[MSBArtPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeDisplayLayer];
     _player.playerView.frame = self.view.bounds;
     [self.view insertSubview:_player.playerView atIndex:0];
     
     __weak ArtViewController *weakSelf = self;
-    
     [_player play];
-    _player.playbackStatus = ^(MSBAIPlaybackStatus status) {
-        NSLog(@"22 playbackStatus: %ld", (long)status);
+    _player.playbackStatus = ^(MSBArtPlaybackStatus status, NSError *error) {
+        NSLog(@"22 playbackStatus: %ld:%@", (long)status, error);
     };
     
     _player.playbackTime = ^(NSTimeInterval time, NSTimeInterval duration) {

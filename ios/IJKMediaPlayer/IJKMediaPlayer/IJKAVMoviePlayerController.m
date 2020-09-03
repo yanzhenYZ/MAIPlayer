@@ -712,14 +712,14 @@ static IJKAVMoviePlayerController* instance;
     
     __block NSError *blockError = error;
     
-    NSLog(@"AVPlayer: onError\n");
     dispatch_async(dispatch_get_main_queue(), ^{
         [self didPlaybackStateChange];
         [self didLoadStateChange];
         [self setScreenOn:NO];
  
         if (blockError == nil) {
-            blockError = [[NSError alloc] init];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"com.meishubao.art.AVPlayer 错误的视频文件"};
+            blockError = [NSError errorWithDomain:@"com.meishubao.art.AVPlayer.ErrorDomain" code:-800 userInfo:userInfo];
         }
         
         [[NSNotificationCenter defaultCenter]
@@ -784,7 +784,6 @@ static IJKAVMoviePlayerController* instance;
     {
         AVPlayerStatus old = [[change objectForKey:@"old"] integerValue];
         AVPlayerStatus playerStatus = [[change objectForKey:@"new"] integerValue];
-//        NSLog(@"______MSB___%d,%d,%@", old, playerStatus, _playerStatus);
         if (playerStatus != old) {
             if (playerStatus == AVPlayerStatusReadyToPlay) {
                 [self addTimeObserver];

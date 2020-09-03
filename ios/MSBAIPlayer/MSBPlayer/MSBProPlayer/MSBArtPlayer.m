@@ -116,6 +116,13 @@
     return _player.playbackTime;
 }
 
+- (void)setPlaybackStatus:(void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    _player.playbackStatus = playbackStatus;
+}
+
+- (void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    return _player.playbackStatus;
+}
 #pragma mark - property readOnly
 - (UIView *)playerView {
     return _player.playerView;

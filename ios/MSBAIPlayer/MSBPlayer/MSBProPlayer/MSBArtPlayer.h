@@ -32,7 +32,7 @@
 @property (nonatomic, copy) void (^audioDataBlock)(int sampleRate, int channels, void *data, int size);
 @property (nonatomic, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 
-@property (nonatomic, copy) void (^playbackStatus)(MSBAIPlaybackStatus status);
+@property (nonatomic, copy) void (^playbackStatus)(MSBArtPlaybackStatus status, NSError *error);
 @property (nonatomic, copy) void (^playbackTime)(NSTimeInterval time, NSTimeInterval duration);
 
 - (instancetype)init NS_UNAVAILABLE;

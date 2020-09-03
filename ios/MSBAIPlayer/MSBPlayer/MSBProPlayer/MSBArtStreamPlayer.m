@@ -20,7 +20,6 @@
 @synthesize loadedTime = _loadedTime;
 @synthesize playbackTime = _playbackTime;
 @synthesize videoGravity = _videoGravity;
-@synthesize playerStatus = _playerStatus;
 @synthesize playbackStatus = _playbackStatus;
 @synthesize playbackTimeInterval = _playbackTimeInterval;
 @synthesize audioDataBlock = _audioDataBlock;
@@ -80,11 +79,11 @@
     if (notification.object != self.player) {
         return;
     }
-    if (_playerStatus) {
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
-        NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:100 userInfo:userInfo];
-        _playerStatus(AVPlayerStatusFailed, error);
-    }
+//    if (_playerStatus) {
+//        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
+//        NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:100 userInfo:userInfo];
+//        _playerStatus(AVPlayerStatusFailed, error);
+//    }
 }
 
 #pragma mark - method
@@ -135,14 +134,6 @@
     return _videoGravity;
 }
 
-- (void)setPlayerStatus:(void (^)(AVPlayerStatus, NSError *))playerStatus {
-    _playerStatus = playerStatus;
-}
-
-- (void (^)(AVPlayerStatus, NSError *))playerStatus {
-    return _playerStatus;
-}
-
 - (void)setVideoDataBlock:(void (^)(CVPixelBufferRef))videoDataBlock {
     _videoDataBlock = videoDataBlock;
 }
@@ -151,6 +142,13 @@
     return _videoDataBlock;
 }
 
+-(void)setPlaybackStatus:(void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    _playbackStatus = playbackStatus;
+}
+
+- (void (^)(MSBArtPlaybackStatus, NSError *))playbackStatus {
+    return _playbackStatus;
+}
 
 - (void)setAudioDataBlock:(void (^)(int, int, void *, int))audioDataBlock {
     _audioDataBlock = audioDataBlock;
