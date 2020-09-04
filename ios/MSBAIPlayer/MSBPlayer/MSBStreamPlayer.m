@@ -69,8 +69,7 @@
         
         _player = [[IJKFFMoviePlayerController alloc] initWithContentURL:URL withOptions:ffOptions];
         _player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _videoStatus = MSBAIPlaybackStatusBuffering;
-        _ijkStatus = IJKMPMoviePlaybackStatePaused;
+        _videoStatus = MSBAIPlaybackStatusPaused;
         _player.scalingMode = IJKMPMovieScalingModeAspectFit;
         _player.shouldAutoplay = NO;
         [self addObserver];
@@ -80,52 +79,53 @@
 }
 
 - (void)addObserver {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStatusDidChange:)
-                                                 name:PlayerStatusDidChangeNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStoppedWithError:)
-                                                 name:PlayerStoppedWithErrorNotification object:_player];
-//    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerVideoDecoderOpen:) name:IJKMPMoviePlayerVideoDecoderOpenNotification object:_player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(playerVideoFrameRenderedStart:) name:IJKMPMoviePlayerFirstVideoFrameRenderedNotification object:_player];
-}
-
-- (void)playerStatusDidChange:(NSNotification *)notification {
-    if (notification.object != self.player) {
-        return;
-    }
-    int status = [[[notification userInfo] valueForKey:@"PlayerStatus"] intValue];
-    if (_tStatus == status) {
-        return;
-    }
-    _tStatus = status;
-    MSBAIPlaybackStatus oldStatus = _videoStatus;
-    if (_tStatus == 2) {
-        [self startTimer];
-        if (_playerStatus) {
-            _playerStatus(AVPlayerStatusReadyToPlay, nil);
+    __weak MSBStreamPlayer *weakSelf = self;
+    [NSNotificationCenter.defaultCenter addObserverForName:YZPlayerStatusDidChangeNotification object:_player queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        __strong MSBStreamPlayer *strongSelf = weakSelf;
+        if (note.object != strongSelf.player) { return; }
+        self.tStatus = [[note.userInfo valueForKey:@"PlayerStatus"] intValue];
+        MSBAIPlaybackStatus oldStatus = strongSelf.videoStatus;
+        switch (strongSelf.tStatus) {
+            case YZPlayerStatusReady:
+                if (strongSelf.playerStatus) {
+                    strongSelf.playerStatus(AVPlayerStatusReadyToPlay, nil);
+                }
+                return;
+                break;
+            case YZPlayerStatusCaching:
+                strongSelf.videoStatus = MSBAIPlaybackStatusBuffering;
+                break;
+            case YZPlayerStatusPlaying:
+                strongSelf.videoStatus = MSBAIPlaybackStatusPlaying;
+                break;
+            case YZPlayerStatusPaused:
+                strongSelf.videoStatus = MSBAIPlaybackStatusPaused;
+                break;
+            case YZPlayerStatusSeeking:
+                strongSelf.videoStatus = MSBAIPlaybackStatusSeeking;
+                break;
+            case YZPlayerStatusStopped:
+                strongSelf.videoStatus = MSBAIPlaybackStatusEnded;
+                [self stopTimer];
+                break;
+            case YZPlayerStatusError: {
+                strongSelf.videoStatus = MSBArtPlaybackStatusError;
+                NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
+                NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:-1000 userInfo:userInfo];
+                if (strongSelf.playerStatus) {
+                    strongSelf.playerStatus(AVPlayerStatusFailed, error);
+                }
+                return;
+            }
+                break;
+            default:
+                break;
         }
-    } else if (_tStatus == 3) {
-        _videoStatus = MSBAIPlaybackStatusBuffering;
-    } else if (_tStatus == 4) {
-        _videoStatus = MSBAIPlaybackStatusPlaying;
-    } else if (_tStatus == 5) {
-        _videoStatus = MSBAIPlaybackStatusPaused;
-    } else if (_tStatus == 6) {
-        _videoStatus = MSBAIPlaybackStatusEnded;
-    } else if (_tStatus == 7) {
-        if (_playerStatus) {
-            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"未知错误", nil)};
-            NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:100 userInfo:userInfo];
-            _playerStatus(AVPlayerStatusFailed, error);
+        if (strongSelf.videoStatus == oldStatus) { return; }
+        if (strongSelf.playbackStatus) {
+            strongSelf.playbackStatus(strongSelf.videoStatus);
         }
-    } else {
-        return;
-    }
-    if (_videoStatus == oldStatus) {
-        return;
-    }
-    if (_playbackStatus) {
-        _playbackStatus(_videoStatus);
-    }
+    }];
 }
 
 - (void)playerStoppedWithError:(NSNotification *)notification {
@@ -333,6 +333,9 @@
 
 - (void)play {
     [_player play];
+    if (!_timer) {
+        [self startTimer];
+    }
 }
 
 - (void)pause {
@@ -341,6 +344,9 @@
 
 - (void)resume {
     [_player play];
+    if (!_timer) {
+        [self startTimer];
+    }
 }
 
 - (void)stop {

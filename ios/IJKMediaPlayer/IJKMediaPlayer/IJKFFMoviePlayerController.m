@@ -36,21 +36,6 @@
 
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.4--ijk0.8.7--20180103--001";
 
-//added by yanzhen yanzhen  -- FUNC_0002
-NSString *const PlayerStatusDidChangeNotification  = @"PlayerStatusDidChangeNotification";
-NSString *const PlayerStoppedWithErrorNotification = @"PlayerStoppedWithErrorNotification";
-
-typedef NS_ENUM(NSInteger, PlayerStatus) {
-    PlayerStatusUnknow = 0,
-    PlayerStatusPreparing,
-    PlayerStatusReady,
-    PlayerStatusCaching,
-    PlayerStatusPlaying,
-    PlayerStatusPaused,
-    PlayerStatusStopped
-};
-//end
-
 // It means you didn't call shutdown if you found this object leaked.
 @interface IJKWeakHolder : NSObject
 @property (nonatomic, weak) id object;
@@ -671,7 +656,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     [[NSNotificationCenter defaultCenter]
      postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
      object:self];
-
+    [self yanzhenStatusChange];
     _bufferingPosition = 0;
     ijkmp_seek_to(_mediaPlayer, aCurrentPlaybackTime * 1000);
 }
@@ -1039,35 +1024,28 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
     AVMessage *avmsg = &msg->_msg;
     switch (avmsg->what) {
         case FFP_MSG_FLUSH:
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-            userInfo:@{@"PlayerStatus": @(PlayerStatusPreparing)}];
+            //yanzhen__flush
+            //[[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self userInfo:@{@"PlayerStatus": @(PlayerStatusPreparing)}];
             //end
             break;
         case FFP_MSG_ERROR: {
-            NSLog(@"FFP_MSG_ERROR: %d\n", avmsg->arg1);
-
             [self setScreenOn:NO];
 
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
              object:self];
-
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:IJKMPMoviePlayerPlaybackDidFinishNotification
                 object:self
                 userInfo:@{
                     IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey: @(IJKMPMovieFinishReasonPlaybackError),
                     @"error": @(avmsg->arg1)}];
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStoppedWithErrorNotification object:self
-            userInfo:@{@"error": @(avmsg->arg1)}];
+            //yanzhen_2020-09-04
+            [[NSNotificationCenter defaultCenter] postNotificationName:YZPlayerStatusDidChangeNotification object:self userInfo:@{@"error": @(avmsg->arg1), @"PlayerStatus" : @(YZPlayerStatusError)}];
             //end
             break;
         }
         case FFP_MSG_PREPARED: {
-            NSLog(@"FFP_MSG_PREPARED:\n");
-
             _monitor.prepareDuration = (int64_t)SDL_GetTickHR() - _monitor.prepareStartTick;
             int64_t vdec = ijkmp_get_property_int64(_mediaPlayer, FFP_PROP_INT64_VIDEO_DECODER, FFP_PROPV_DECODER_UNKNOWN);
             switch (vdec) {
@@ -1170,9 +1148,9 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerLoadStateDidChangeNotification
              object:self];
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-            userInfo:@{@"PlayerStatus": @(PlayerStatusReady)}];
+            //yanzhen_2020-09-04
+            [[NSNotificationCenter defaultCenter] postNotificationName:YZPlayerStatusDidChangeNotification object:self
+            userInfo:@{@"PlayerStatus": @(YZPlayerStatusReady)}];
             //end
             break;
         }
@@ -1183,14 +1161,13 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
              object:self];
-
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerPlaybackDidFinishNotification
              object:self
              userInfo:@{IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey: @(IJKMPMovieFinishReasonPlaybackEnded)}];
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-            userInfo:@{@"PlayerStatus": @(PlayerStatusStopped)}];
+            //yanzhen_2020-09-04
+            [[NSNotificationCenter defaultCenter] postNotificationName:YZPlayerStatusDidChangeNotification object:self
+            userInfo:@{@"PlayerStatus": @(YZPlayerStatusStopped)}];
             //end
             break;
         }
@@ -1222,15 +1199,13 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
              postNotificationName:IJKMPMoviePlayerLoadStateDidChangeNotification
              object:self];
             _isSeekBuffering = 0;
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-            userInfo:@{@"PlayerStatus": @(PlayerStatusCaching)}];
+            //yanzhen_2020-09-04
+            [[NSNotificationCenter defaultCenter] postNotificationName:YZPlayerStatusDidChangeNotification object:self
+            userInfo:@{@"PlayerStatus": @(YZPlayerStatusCaching)}];
             //end
             break;
         }
         case FFP_MSG_BUFFERING_END: {
-            NSLog(@"FFP_MSG_BUFFERING_END:\n");
-
             _monitor.lastPrerollDuration = (int64_t)SDL_GetTickHR() - _monitor.lastPrerollStartTick;
 
             _loadState = IJKMPMovieLoadStatePlayable | IJKMPMovieLoadStatePlaythroughOK;
@@ -1242,10 +1217,10 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
              object:self];
+            [self yanzhenStatusChange];
             _isSeekBuffering = 0;
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-            userInfo:@{@"PlayerStatus": @(PlayerStatusPlaying)}];
+            //yanzhen___播放结束拖动进度调
+            //[[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self userInfo:@{@"PlayerStatus": @(PlayerStatusPlaying)}];
             //end
             break;
         }
@@ -1265,40 +1240,7 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             [[NSNotificationCenter defaultCenter]
              postNotificationName:IJKMPMoviePlayerPlaybackStateDidChangeNotification
              object:self];
-            //added by yanzhen yanzhen FUNC_0002 - 2020-05-12
-            PlayerStatus playerStatus = PlayerStatusUnknow;
-            switch (self.playbackState) {
-                case IJKMPMoviePlaybackStateStopped:
-                    playerStatus = PlayerStatusStopped;
-                    break;
-
-                case IJKMPMoviePlaybackStatePlaying:
-                    playerStatus = PlayerStatusPlaying;
-                    break;
-                
-                case IJKMPMoviePlaybackStatePaused:
-                    playerStatus = PlayerStatusPaused;
-                    break;
-                
-                case IJKMPMoviePlaybackStateInterrupted:
-                    //
-                    break;
-                
-                case IJKMPMoviePlaybackStateSeekingForward:
-                case IJKMPMoviePlaybackStateSeekingBackward:
-                    //
-                    break;
-                
-                default:
-                    //
-                    break;
-            }
-            
-            if (playerStatus != PlayerStatusUnknow) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:PlayerStatusDidChangeNotification object:self
-                                                                  userInfo:@{@"PlayerStatus": @(playerStatus)}];
-            }
-            //end
+            [self yanzhenStatusChange];
             break;
         case FFP_MSG_SEEK_COMPLETE: {
             NSLog(@"FFP_MSG_SEEK_COMPLETE:\n");
@@ -1400,6 +1342,31 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
     }
 
     [_msgPool recycle:msg];
+}
+
+//yanzhen_2020-09-04
+- (void)yanzhenStatusChange {
+    YZPlayerStatus playerStatus = YZPlayerStatusUnkonw;
+    switch (self.playbackState) {
+        case IJKMPMoviePlaybackStateStopped:
+            playerStatus = YZPlayerStatusStopped;
+            break;
+        case IJKMPMoviePlaybackStatePlaying:
+            playerStatus = YZPlayerStatusPlaying;
+            break;
+        case IJKMPMoviePlaybackStatePaused:
+            playerStatus = YZPlayerStatusPaused;
+            break;
+        case IJKMPMoviePlaybackStateSeekingForward:
+        case IJKMPMoviePlaybackStateSeekingBackward:
+            playerStatus = YZPlayerStatusSeeking;
+            break;
+        default:
+            break;
+    }
+    
+    if (playerStatus == YZPlayerStatusUnkonw) { return; }
+    [[NSNotificationCenter defaultCenter] postNotificationName:YZPlayerStatusDidChangeNotification object:self userInfo:@{@"PlayerStatus": @(playerStatus)}];
 }
 
 - (IJKFFMoviePlayerMessage *) obtainMessage {

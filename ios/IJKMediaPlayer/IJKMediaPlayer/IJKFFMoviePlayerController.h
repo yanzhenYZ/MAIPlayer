@@ -57,9 +57,20 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
-//added by yanzhen yanzhen
-IJK_EXTERN NSString *const PlayerStatusDidChangeNotification;
-IJK_EXTERN NSString *const PlayerStoppedWithErrorNotification;
+//yanzhen_2020-09-04
+NSString *const YZPlayerStatusDidChangeNotification  = @"YZPlayerStatusDidChangeNotification";
+
+typedef NS_ENUM(NSInteger, YZPlayerStatus) {
+    YZPlayerStatusUnkonw = 0,
+    YZPlayerStatusStopped,
+    YZPlayerStatusPlaying,
+    YZPlayerStatusPaused,
+    YZPlayerStatusSeeking,
+    YZPlayerStatusReady,
+    YZPlayerStatusCaching,
+    YZPlayerStatusError
+};
+IJK_EXTERN NSString *const YZPlayerStatusDidChangeNotification;
 //end
 
 typedef enum IJKLogLevel {

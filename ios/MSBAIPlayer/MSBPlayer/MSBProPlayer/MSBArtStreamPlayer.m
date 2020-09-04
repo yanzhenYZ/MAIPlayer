@@ -67,49 +67,51 @@
 }
 
 - (void)addObserver {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStatusDidChange:)
-                                                 name:PlayerStatusDidChangeNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStoppedWithError:)
-                                                 name:PlayerStoppedWithErrorNotification object:_player];
+    __weak MSBArtStreamPlayer *weakSelf = self;
+    [NSNotificationCenter.defaultCenter addObserverForName:YZPlayerStatusDidChangeNotification object:_player queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        __strong MSBArtStreamPlayer *strongSelf = weakSelf;
+        if (note.object != strongSelf.player) { return; }
+        self.tStatus = [[note.userInfo valueForKey:@"PlayerStatus"] intValue];
+        MSBArtPlaybackStatus oldStatus = strongSelf.videoStatus;
+        NSError *error = nil;
+        switch (strongSelf.tStatus) {
+            case YZPlayerStatusUnkonw:
+                strongSelf.videoStatus = MSBArtPlaybackStatusUnknow;
+                break;
+            case YZPlayerStatusReady:
+                strongSelf.videoStatus = MSBArtPlaybackStatusReady;
+                break;
+            case YZPlayerStatusCaching:
+                strongSelf.videoStatus = MSBArtPlaybackStatusBuffering;
+                break;
+            case YZPlayerStatusPlaying:
+                strongSelf.videoStatus = MSBArtPlaybackStatusPlaying;
+                break;
+            case YZPlayerStatusPaused:
+                strongSelf.videoStatus = MSBArtPlaybackStatusPaused;
+                break;
+            case YZPlayerStatusSeeking:
+                strongSelf.videoStatus = MSBArtPlaybackStatusSeeking;
+                break;
+            case YZPlayerStatusStopped:
+                strongSelf.videoStatus = MSBArtPlaybackStatusEnded;
+                break;
+            case YZPlayerStatusError: {
+                strongSelf.videoStatus = MSBArtPlaybackStatusError;
+                NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
+                error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:-1000 userInfo:userInfo];
+            }
+                break;
+            default:
+                break;
+        }
+        if (strongSelf.videoStatus == oldStatus) { return; }
+        if (strongSelf.playbackStatus) {
+            strongSelf.playbackStatus(strongSelf.videoStatus, error);
+        }
+    }];
 }
 
-- (void)playerStatusDidChange:(NSNotification *)notification {
-    if (notification.object != self.player) { return; }
-    int status = [[[notification userInfo] valueForKey:@"PlayerStatus"] intValue];
-    _tStatus = status;
-    MSBArtPlaybackStatus oldStatus = _videoStatus;
-    if (_tStatus == 2) {
-        _videoStatus = MSBArtPlaybackStatusReady;
-    } else if (_tStatus == 3) {
-        _videoStatus = MSBArtPlaybackStatusBuffering;
-    } else if (_tStatus == 4) {
-        _videoStatus = MSBArtPlaybackStatusPlaying;
-    } else if (_tStatus == 5) {
-        _videoStatus = MSBArtPlaybackStatusPaused;
-    } else if (_tStatus == 6) {
-        [self stopTimer];
-        _videoStatus = MSBArtPlaybackStatusEnded;
-    } else {
-        return;
-    }
-    if (_videoStatus == oldStatus) { return; }
-    [self callBackPlaybackStatusError:nil];
-}
-
-- (void)playerStoppedWithError:(NSNotification *)notification {
-    if (notification.object != self.player) { return; }
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"连接服务器失败或者错误的URL", nil)};
-    NSError *error = [NSError errorWithDomain:@"com.meishubao.art.ErrorDomain" code:-1000 userInfo:userInfo];
-    [self callBackPlaybackStatusError:error];
-}
-
-- (void)callBackPlaybackStatusError:(NSError *)error {
-    if (_playbackStatus) {
-        _playbackStatus(_videoStatus, error);
-    }
-}
-
-#pragma mark - timer
 - (void)startTimer {
     _timer = [NSTimer scheduledTimerWithTimeInterval:_playbackTimeInterval target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     [NSRunLoop.currentRunLoop addTimer:_timer forMode:NSRunLoopCommonModes];

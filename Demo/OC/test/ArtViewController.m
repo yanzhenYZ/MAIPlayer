@@ -44,7 +44,7 @@
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBArtPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeToolBoxSync];
+    _player = [[MSBArtPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeToolBoxSync];
     _player.playerView.frame = self.view.bounds;
     [self.view insertSubview:_player.playerView atIndex:0];
     
@@ -109,3 +109,13 @@
     return _context;
 }
 @end
+/**
+ typedef NS_ENUM(NSInteger, IJKMPMoviePlaybackState) {
+     IJKMPMoviePlaybackStateStopped,
+     IJKMPMoviePlaybackStatePlaying,
+     IJKMPMoviePlaybackStatePaused,
+     IJKMPMoviePlaybackStateInterrupted,
+     IJKMPMoviePlaybackStateSeekingForward,
+     IJKMPMoviePlaybackStateSeekingBackward
+ };
+ */
