@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B3B7B192501E80F002CD684 /* MSBEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B182501E80F002CD684 /* MSBEnum.h */; };
+		9B3B7B2E2501E8F8002CD684 /* MSBArtPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B2A2501E8F7002CD684 /* MSBArtPlayer.h */; };
+		9B3B7B2F2501E8F8002CD684 /* MSBArtPlayerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B2B2501E8F8002CD684 /* MSBArtPlayerProtocol.h */; };
+		9B3B7B302501E8F8002CD684 /* MSBArtApplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B7B2C2501E8F8002CD684 /* MSBArtApplePlayer.m */; };
+		9B3B7B312501E8F8002CD684 /* MSBArtApplePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B3B7B2D2501E8F8002CD684 /* MSBArtApplePlayer.h */; };
+		9B3B7B332501E920002CD684 /* MSBArtPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B7B322501E920002CD684 /* MSBArtPlayer.m */; };
 		9B44CB9224AA101E009F48DB /* MSBAIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CB9124AA101E009F48DB /* MSBAIPlayer.m */; };
 		9B44CB9A24AAE445009F48DB /* IJKAVPlayerLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CB9624AAE445009F48DB /* IJKAVPlayerLayerView.m */; };
 		9B44CB9B24AAE445009F48DB /* IJKAVPlayerLayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CB9724AAE445009F48DB /* IJKAVPlayerLayerView.h */; };
@@ -24,19 +30,22 @@
 		9B44CBB124AAE68C009F48DB /* IJKMediaModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CBAB24AAE68C009F48DB /* IJKMediaModule.m */; };
 		9B44CBB624AAEC3B009F48DB /* IJKMediaPlayback.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B44CBB424AAEC3B009F48DB /* IJKMediaPlayback.h */; };
 		9B44CBB724AAEC3B009F48DB /* IJKMediaPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44CBB524AAEC3B009F48DB /* IJKMediaPlayback.m */; };
-		9B47B78524E7E471000D7B53 /* MSBAIEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B77E24E7E470000D7B53 /* MSBAIEnum.h */; };
 		9B47B78624E7E471000D7B53 /* MSBAIApplePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B77F24E7E470000D7B53 /* MSBAIApplePlayer.h */; };
 		9B47B78724E7E471000D7B53 /* MSBAIPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78024E7E470000D7B53 /* MSBAIPlayer.h */; };
 		9B47B78824E7E471000D7B53 /* MSBAIPlayerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78124E7E470000D7B53 /* MSBAIPlayerProtocol.h */; };
 		9B47B78924E7E471000D7B53 /* MSBAIApplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */; };
-		9B47B78A24E7E471000D7B53 /* MSBStreamPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */; };
 		9B47B78B24E7E471000D7B53 /* MSBPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B47B78424E7E471000D7B53 /* MSBPlayer.h */; };
-		9BDDC18924A1A0640068247B /* MSBStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDDC18724A1A0640068247B /* MSBStreamPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		48A9B34324061B23005025FE /* MSBAIPlayerSimulators.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MSBAIPlayerSimulators.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A9B34724061B23005025FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B3B7B182501E80F002CD684 /* MSBEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBEnum.h; path = MSBPlayer/MSBEnum.h; sourceTree = SOURCE_ROOT; };
+		9B3B7B2A2501E8F7002CD684 /* MSBArtPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBArtPlayer.h; path = MSBPlayer/MSBProPlayer/MSBArtPlayer.h; sourceTree = SOURCE_ROOT; };
+		9B3B7B2B2501E8F8002CD684 /* MSBArtPlayerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBArtPlayerProtocol.h; path = MSBPlayer/MSBProPlayer/MSBArtPlayerProtocol.h; sourceTree = SOURCE_ROOT; };
+		9B3B7B2C2501E8F8002CD684 /* MSBArtApplePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBArtApplePlayer.m; path = MSBPlayer/MSBProPlayer/MSBArtApplePlayer.m; sourceTree = SOURCE_ROOT; };
+		9B3B7B2D2501E8F8002CD684 /* MSBArtApplePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBArtApplePlayer.h; path = MSBPlayer/MSBProPlayer/MSBArtApplePlayer.h; sourceTree = SOURCE_ROOT; };
+		9B3B7B322501E920002CD684 /* MSBArtPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBArtPlayer.m; sourceTree = "<group>"; };
 		9B44CB9124AA101E009F48DB /* MSBAIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBAIPlayer.m; sourceTree = "<group>"; };
 		9B44CB9624AAE445009F48DB /* IJKAVPlayerLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKAVPlayerLayerView.m; path = ../../IJKMediaPlayer/IJKMediaPlayer/IJKAVPlayerLayerView.m; sourceTree = "<group>"; };
 		9B44CB9724AAE445009F48DB /* IJKAVPlayerLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IJKAVPlayerLayerView.h; path = ../../IJKMediaPlayer/IJKMediaPlayer/IJKAVPlayerLayerView.h; sourceTree = "<group>"; };
@@ -54,14 +63,11 @@
 		9B44CBAB24AAE68C009F48DB /* IJKMediaModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKMediaModule.m; path = ../../IJKMediaPlayer/IJKMediaPlayer/IJKMediaModule.m; sourceTree = "<group>"; };
 		9B44CBB424AAEC3B009F48DB /* IJKMediaPlayback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IJKMediaPlayback.h; path = ../../IJKMediaPlayer/IJKMediaPlayer/IJKMediaPlayback.h; sourceTree = "<group>"; };
 		9B44CBB524AAEC3B009F48DB /* IJKMediaPlayback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKMediaPlayback.m; path = ../../IJKMediaPlayer/IJKMediaPlayer/IJKMediaPlayback.m; sourceTree = "<group>"; };
-		9B47B77E24E7E470000D7B53 /* MSBAIEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBAIEnum.h; path = MSBPlayer/MSBAIEnum.h; sourceTree = SOURCE_ROOT; };
 		9B47B77F24E7E470000D7B53 /* MSBAIApplePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBAIApplePlayer.h; path = MSBPlayer/MSBAIApplePlayer.h; sourceTree = SOURCE_ROOT; };
 		9B47B78024E7E470000D7B53 /* MSBAIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBAIPlayer.h; path = MSBPlayer/MSBAIPlayer.h; sourceTree = SOURCE_ROOT; };
 		9B47B78124E7E470000D7B53 /* MSBAIPlayerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBAIPlayerProtocol.h; path = MSBPlayer/MSBAIPlayerProtocol.h; sourceTree = SOURCE_ROOT; };
 		9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBAIApplePlayer.m; path = MSBPlayer/MSBAIApplePlayer.m; sourceTree = SOURCE_ROOT; };
-		9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBStreamPlayer.h; path = MSBPlayer/MSBStreamPlayer.h; sourceTree = SOURCE_ROOT; };
 		9B47B78424E7E471000D7B53 /* MSBPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBPlayer.h; path = MSBPlayer/MSBPlayer.h; sourceTree = SOURCE_ROOT; };
-		9BDDC18724A1A0640068247B /* MSBStreamPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBStreamPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,17 +102,28 @@
 			children = (
 				9B44CB9524AAE3FB009F48DB /* SimPlayer */,
 				9B47B78424E7E471000D7B53 /* MSBPlayer.h */,
-				9B47B77F24E7E470000D7B53 /* MSBAIApplePlayer.h */,
-				9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */,
-				9B47B77E24E7E470000D7B53 /* MSBAIEnum.h */,
-				9B47B78124E7E470000D7B53 /* MSBAIPlayerProtocol.h */,
+				9B3B7B182501E80F002CD684 /* MSBEnum.h */,
 				9B47B78024E7E470000D7B53 /* MSBAIPlayer.h */,
 				9B44CB9124AA101E009F48DB /* MSBAIPlayer.m */,
-				9B47B78324E7E471000D7B53 /* MSBStreamPlayer.h */,
-				9BDDC18724A1A0640068247B /* MSBStreamPlayer.m */,
+				9B47B77F24E7E470000D7B53 /* MSBAIApplePlayer.h */,
+				9B47B78224E7E470000D7B53 /* MSBAIApplePlayer.m */,
+				9B47B78124E7E470000D7B53 /* MSBAIPlayerProtocol.h */,
+				9B3B7B292501E8E2002CD684 /* MSBProPlayer */,
 				48A9B34724061B23005025FE /* Info.plist */,
 			);
 			path = MSBPlayerSimulators;
+			sourceTree = "<group>";
+		};
+		9B3B7B292501E8E2002CD684 /* MSBProPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				9B3B7B2A2501E8F7002CD684 /* MSBArtPlayer.h */,
+				9B3B7B322501E920002CD684 /* MSBArtPlayer.m */,
+				9B3B7B2D2501E8F8002CD684 /* MSBArtApplePlayer.h */,
+				9B3B7B2C2501E8F8002CD684 /* MSBArtApplePlayer.m */,
+				9B3B7B2B2501E8F8002CD684 /* MSBArtPlayerProtocol.h */,
+			);
+			name = MSBProPlayer;
 			sourceTree = "<group>";
 		};
 		9B44CB9524AAE3FB009F48DB /* SimPlayer */ = {
@@ -139,8 +156,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B47B78524E7E471000D7B53 /* MSBAIEnum.h in Headers */,
 				9B44CB9C24AAE445009F48DB /* IJKAVMoviePlayerController.h in Headers */,
+				9B3B7B312501E8F8002CD684 /* MSBArtApplePlayer.h in Headers */,
 				9B47B78B24E7E471000D7B53 /* MSBPlayer.h in Headers */,
 				9B44CB9B24AAE445009F48DB /* IJKAVPlayerLayerView.h in Headers */,
 				9B44CBB024AAE68C009F48DB /* IJKKVOController.h in Headers */,
@@ -148,10 +165,12 @@
 				9B44CBAC24AAE68C009F48DB /* IJKNotificationManager.h in Headers */,
 				9B44CBB624AAEC3B009F48DB /* IJKMediaPlayback.h in Headers */,
 				9B44CBA024AAE5D6009F48DB /* IJKAudioKit.h in Headers */,
+				9B3B7B2E2501E8F8002CD684 /* MSBArtPlayer.h in Headers */,
+				9B3B7B2F2501E8F8002CD684 /* MSBArtPlayerProtocol.h in Headers */,
 				9B44CBA524AAE647009F48DB /* IJKMediaUtils.h in Headers */,
 				9B44CBAD24AAE68C009F48DB /* IJKMediaModule.h in Headers */,
-				9B47B78A24E7E471000D7B53 /* MSBStreamPlayer.h in Headers */,
 				9B47B78824E7E471000D7B53 /* MSBAIPlayerProtocol.h in Headers */,
+				9B3B7B192501E80F002CD684 /* MSBEnum.h in Headers */,
 				9B47B78724E7E471000D7B53 /* MSBAIPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,11 +249,12 @@
 				9B44CBA424AAE647009F48DB /* IJKMediaUtils.m in Sources */,
 				9B44CBAE24AAE68C009F48DB /* IJKNotificationManager.m in Sources */,
 				9B44CB9224AA101E009F48DB /* MSBAIPlayer.m in Sources */,
-				9BDDC18924A1A0640068247B /* MSBStreamPlayer.m in Sources */,
 				9B44CBAF24AAE68C009F48DB /* IJKKVOController.m in Sources */,
 				9B44CBB124AAE68C009F48DB /* IJKMediaModule.m in Sources */,
 				9B44CB9A24AAE445009F48DB /* IJKAVPlayerLayerView.m in Sources */,
+				9B3B7B302501E8F8002CD684 /* MSBArtApplePlayer.m in Sources */,
 				9B44CB9D24AAE445009F48DB /* IJKAVMoviePlayerController.m in Sources */,
+				9B3B7B332501E920002CD684 /* MSBArtPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

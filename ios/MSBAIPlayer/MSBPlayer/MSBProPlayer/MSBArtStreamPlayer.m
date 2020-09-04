@@ -36,6 +36,10 @@
 @synthesize audioDataBlock = _audioDataBlock;
 @synthesize videoDataBlock = _videoDataBlock;
 
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
 - (instancetype)initWithURL:(NSURL *)url mode:(MSBVideoDecoderMode)mode {
     self = [super init];
     if (self) {
@@ -79,7 +83,6 @@
     _tStatus = status;
     MSBArtPlaybackStatus oldStatus = _videoStatus;
     if (_tStatus == 2) {
-        [self startTimer];
         _videoStatus = MSBArtPlaybackStatusReady;
     } else if (_tStatus == 3) {
         _videoStatus = MSBArtPlaybackStatusBuffering;
@@ -88,6 +91,7 @@
     } else if (_tStatus == 5) {
         _videoStatus = MSBArtPlaybackStatusPaused;
     } else if (_tStatus == 6) {
+        [self stopTimer];
         _videoStatus = MSBArtPlaybackStatusEnded;
     } else {
         return;
@@ -138,6 +142,9 @@
         _readPlay = YES;
         [_player prepareToPlay];
     }
+    if (!_timer) {
+        [self startTimer];
+    }
 }
 
 - (void)pause {
@@ -146,6 +153,9 @@
 
 - (void)resume {
     [_player play];
+    if (!_timer) {
+        [self startTimer];
+    }
 }
 
 - (void)stop {

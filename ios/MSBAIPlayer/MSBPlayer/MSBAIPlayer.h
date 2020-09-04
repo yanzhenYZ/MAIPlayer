@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "MSBAIEnum.h"
+#import "MSBEnum.h"
 
 @interface MSBAIPlayer : NSObject
 @property (nonatomic, readonly) NSURL *URL;

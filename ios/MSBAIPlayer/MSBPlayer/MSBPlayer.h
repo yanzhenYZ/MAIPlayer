@@ -8,4 +8,4 @@
 
 #import "MSBArtPlayer.h"
 #import "MSBAIPlayer.h"
-#import "MSBAIEnum.h"
+#import "MSBEnum.h"

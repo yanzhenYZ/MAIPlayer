@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MSBArtPlayerProtocol.h"
-#import "MSBAIEnum.h"
+#import "MSBEnum.h"
 
 @interface MSBArtStreamPlayer : NSObject<MSBArtPlayerProtocol>
 - (instancetype)initWithURL:(NSURL *)url mode:(MSBVideoDecoderMode)mode;
