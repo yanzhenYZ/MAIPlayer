@@ -9,7 +9,7 @@
 #import "ArtViewController.h"
 #import <MSBPlayer/MSBPlayer.h>
 
-@interface ArtViewController ()<MSBArtPlayerDelegate>
+@interface ArtViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UIImageView *smallPlayer;
@@ -44,8 +44,7 @@
     
     NSURL *url = [NSURL URLWithString:@"http://39.107.116.40/res/tpl/default/file/guoke.mp4"];
     
-    _player = [[MSBArtPlayer alloc] initWithURL:url mode:MSBVideoDecoderModeToolBoxSync];
-    _player.delegate = self;
+    _player = [[MSBArtPlayer alloc] initWithURL:pathUrl mode:MSBVideoDecoderModeToolBoxSync];
     _player.playerView.frame = self.view.bounds;
     [self.view insertSubview:_player.playerView atIndex:0];
     
@@ -108,25 +107,5 @@
         _context = [CIContext contextWithOptions:nil];
     }
     return _context;
-}
-#pragma mark - MSBArtPlayerDelegate
--(void)player:(MSBArtPlayer *)player statusDidChange:(MSBArtPlaybackStatus)status error:(NSError *)error {
-    NSLog(@"-------statusDidChange:%d:%@", status, error);
-}
-
-- (void)player:(MSBArtPlayer *)player loadedTime:(NSTimeInterval)time duration:(NSTimeInterval)duration {
-    NSLog(@"-------loadedTime:%f:%f", time, duration);
-}
-
-- (void)player:(MSBArtPlayer *)player playbackTime:(NSTimeInterval)time duration:(NSTimeInterval)duration {
-    NSLog(@"-------playbackTime:%f:%f", time, duration);
-}
-
-- (void)player:(MSBArtPlayer *)player audioData:(void *)data size:(int)size sampleRate:(int)sampleRate channels:(int)channels {
-    NSLog(@"-------audioData:%d:%d:%d", size, sampleRate, channels);
-}
-
--(void)player:(MSBArtPlayer *)player videoData:(CVPixelBufferRef)pixelBuffer {
-    NSLog(@"-------videoData:%@", pixelBuffer);
 }
 @end

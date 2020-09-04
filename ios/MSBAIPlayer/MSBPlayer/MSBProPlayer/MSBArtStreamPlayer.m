@@ -12,7 +12,9 @@
 #import "MSBAVMedia.h"
 /**
  4. timer
+ 模拟器支持
  */
+ 
 @interface MSBArtStreamPlayer ()<MSBAVMediaDelegate>
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
 @property (nonatomic, assign) MSBVideoDecoderMode mode;
@@ -26,7 +28,6 @@
 @end
 
 @implementation MSBArtStreamPlayer
-@synthesize delegate = _delegate;
 @synthesize loadedTime = _loadedTime;
 @synthesize playbackTime = _playbackTime;
 @synthesize videoGravity = _videoGravity;
@@ -106,9 +107,6 @@
     if (_playbackStatus) {
         _playbackStatus(_videoStatus, error);
     }
-    if ([_delegate respondsToSelector:@selector(playerStatusDidChange:error:)]) {
-        [_delegate playerStatusDidChange:_videoStatus error:error];
-    }
 }
 
 #pragma mark - timer
@@ -127,15 +125,9 @@
     if (_playbackTime) {
         _playbackTime(_player.currentPlaybackTime, duration);
     }
-    if ([_delegate respondsToSelector:@selector(playerPlaybackTime:duration:)]) {
-        [_delegate playerPlaybackTime:_player.currentPlaybackTime duration:duration];
-    }
     
     if (_loadedTime) {
         _loadedTime(_player.playableDuration, duration);
-    }
-    if ([_delegate respondsToSelector:@selector(playerLoadedTime:duration:)]) {
-        [_delegate playerLoadedTime:_player.playableDuration duration:duration];
     }
 }
 #pragma mark - method
@@ -264,14 +256,6 @@
 
 - (void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
     return _playbackTime;
-}
-
-- (void)setDelegate:(id<MSBArtPlayerGeneralDelegate>)delegate {
-    _delegate = delegate;
-}
-
-- (id<MSBArtPlayerGeneralDelegate>)delegate {
-    return _delegate;
 }
 #pragma mark - property readOnly
 - (UIView *)playerView {

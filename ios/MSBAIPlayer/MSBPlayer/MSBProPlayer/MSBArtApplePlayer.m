@@ -16,7 +16,6 @@
 @end
 
 @implementation MSBArtApplePlayer
-@synthesize delegate = _delegate;
 @synthesize videoGravity = _videoGravity;
 @synthesize playbackStatus = _playbackStatus;
 @synthesize audioDataBlock = _audioDataBlock;
@@ -58,18 +57,13 @@
         if (strongSelf.loadedTime) {
             strongSelf.loadedTime(time, duration);
         }
-        if ([strongSelf.delegate respondsToSelector:@selector(playerLoadedTime:duration:)]) {
-            [strongSelf.delegate playerLoadedTime:time duration:duration];
-        }
+        
     };
     
     _player.playbackTime = ^(NSTimeInterval time, NSTimeInterval duration) {
         __strong MSBArtApplePlayer *strongSelf = weakSelf;
         if (strongSelf.playbackTime) {
             strongSelf.playbackTime(time, duration);
-        }
-        if ([strongSelf.delegate respondsToSelector:@selector(playerPlaybackTime:duration:)]) {
-            [strongSelf.delegate playerPlaybackTime:time duration:duration];
         }
     };
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(playerPlaybackStateDidChange:) name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:nil];
@@ -104,9 +98,6 @@
 - (void)callBackPlaybackStatusError:(NSError *)error {
     if (_playbackStatus) {
         _playbackStatus(_videoStatus, error);
-    }
-    if ([_delegate respondsToSelector:@selector(playerStatusDidChange:error:)]) {
-        [_delegate playerStatusDidChange:_videoStatus error:error];
     }
 }
 
@@ -207,15 +198,6 @@
 - (void (^)(CVPixelBufferRef))videoDataBlock {
     return _videoDataBlock;
 }
-
-- (void)setDelegate:(id<MSBArtPlayerGeneralDelegate>)delegate {
-    _delegate = delegate;
-}
-
-- (id<MSBArtPlayerGeneralDelegate>)delegate {
-    return _delegate;
-}
-
 #pragma mark - property readOnly
 - (UIView *)playerView {
     return _player.view;

@@ -8,12 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "MSBArtPlayerGeneralDelegate.h"
 #import "MSBAIEnum.h"
 
 @protocol MSBArtPlayerProtocol <NSObject>
-
-@property (nonatomic, weak) id<MSBArtPlayerGeneralDelegate> delegate;
 
 @property (nonatomic, readonly) UIView *playerView;
 @property (nonatomic, readonly) NSTimeInterval currentTime;

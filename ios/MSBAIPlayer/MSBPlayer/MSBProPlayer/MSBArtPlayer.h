@@ -9,14 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "MSBAIEnum.h"
-/**
- 模拟器支持
- */
 
-@protocol MSBArtPlayerDelegate;
 @interface MSBArtPlayer : NSObject
-
-@property (nonatomic, weak) id<MSBArtPlayerDelegate> delegate;
 
 @property (nonatomic, readonly) UIView *playerView;
 @property (nonatomic, readonly) NSTimeInterval currentTime;
@@ -51,17 +45,4 @@
 - (void)seekToTime:(NSTimeInterval)time;
 
 + (NSString *)getVersion;
-@end
-
-@protocol MSBArtPlayerDelegate <NSObject>
-
-@optional
-- (void)player:(MSBArtPlayer *)player statusDidChange:(MSBArtPlaybackStatus)status error:(NSError *)error;
-- (void)player:(MSBArtPlayer *)player loadedTime:(NSTimeInterval)time duration:(NSTimeInterval)duration;
-- (void)player:(MSBArtPlayer *)player playbackTime:(NSTimeInterval)time duration:(NSTimeInterval)duration;
-//MSBVideoDecoderModeDisplayLayer not support
-- (void)player:(MSBArtPlayer *)player videoData:(CVPixelBufferRef)pixelBuffer;
-//MSBVideoDecoderModeDisplayLayer not support
-- (void)player:(MSBArtPlayer *)player audioData:(void *)data size:(int)size sampleRate:(int)sampleRate channels:(int)channels;
-
 @end
