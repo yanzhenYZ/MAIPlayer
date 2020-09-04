@@ -10,10 +10,6 @@
 #import "IJKFFMoviePlayerController.h"
 #import "MSBIJKAVManager.h"
 #import "MSBAVMedia.h"
-/**
- 4. timer
- 模拟器支持
- */
  
 @interface MSBArtStreamPlayer ()<MSBAVMediaDelegate>
 @property (nonatomic, strong) IJKFFMoviePlayerController *player;
