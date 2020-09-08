@@ -145,9 +145,12 @@
 }
 
 /**
- 1.1 加载资源，手动播放
+ 1.0.1
+    修改MSB header search path
+    Swift编译报错
+ 
  */
 + (NSString *)getVersion {
-    return @"1.0.0";
+    return @"1.0.1";
 }
 @end

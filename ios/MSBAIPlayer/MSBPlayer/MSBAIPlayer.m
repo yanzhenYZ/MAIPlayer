@@ -17,10 +17,7 @@
 
 /**
 1. 需要直接播放
-2. seek接口只有一个参数
-3. 去掉手势
-4. 新播放状态
-5. MSBStreamPlayer不能使用CGAffineTransform
+2. MSBStreamPlayer不能使用CGAffineTransform
 */
 
 
